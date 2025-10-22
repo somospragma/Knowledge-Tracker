@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: Knowledge-Tracker
+
+  profiles:
+    active: dev  # Default profile
+
+# Common configurations across all profiles
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+logging:
+  level:
+    root: INFO
+    com.pragma.vc.tracker: INFO
