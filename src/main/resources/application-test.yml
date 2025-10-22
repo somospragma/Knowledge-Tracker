@@ -16,7 +16,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none  # Use schema.sql for tests
+      ddl-auto: none  # Use schema.sql.bak for tests
     show-sql: true
     properties:
       hibernate:
@@ -29,8 +29,8 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
+      #schema-locations: classpath:schema.sql.bak
+      #data-locations: classpath:data.sql.old
       continue-on-error: false
 
 # Test Logging
