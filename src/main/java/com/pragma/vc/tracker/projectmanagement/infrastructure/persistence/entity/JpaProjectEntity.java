@@ -13,28 +13,28 @@ public class JpaProjectEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "account_id", nullable = false)
+    @Column(name = "\"account_id\"", nullable = false)
     private Long accountId;
 
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "\"name\"", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "status", nullable = false, length = 255)
+    @Column(name = "\"status\"", nullable = false, length = 255)
     private String status;
 
-    @Column(name = "startDate")
+    @Column(name = "\"startDate\"")
     private LocalDateTime startDate;
 
-    @Column(name = "endDate")
+    @Column(name = "\"endDate\"")
     private LocalDateTime endDate;
 
-    @Column(name = "type", length = 255)
+    @Column(name = "\"type\"", length = 255)
     private String type;
 
-    @Column(name = "attributes", length = 5000)
+    @Column(name = "\"attributes\"", length = 5000)
     private String attributes;
 
     // Default constructor for JPA

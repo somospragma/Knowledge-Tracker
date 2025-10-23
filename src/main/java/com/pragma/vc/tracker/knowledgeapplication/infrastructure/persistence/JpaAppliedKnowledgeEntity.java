@@ -8,22 +8,23 @@ import java.time.LocalDate;
 public class JpaAppliedKnowledgeEntity {
 
     @Id
+    @Column(name = "\"id\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "project_id", nullable = false)
+    @Column(name = "\"project_id\"", nullable = false)
     private Long projectId;
 
-    @Column(name = "pragmatic_id", nullable = false)
+    @Column(name = "\"pragmatic_id\"", nullable = false)
     private Long pragmaticId;
 
-    @Column(name = "knowledge_id")
+    @Column(name = "\"knowledge_id\"")
     private Long knowledgeId;
 
-    @Column(name = "knowledge_level")
+    @Column(name = "\"knowledge_level\"")
     private Long knowledgeLevel;
 
-    @Column(name = "startDate")
+    @Column(name = "\"startDate\"")
     private LocalDate startDate;
 
     public JpaAppliedKnowledgeEntity() {

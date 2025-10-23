@@ -18,13 +18,13 @@ public class JpaAccountEntity {
     @Column(name = "\"name\"", nullable = false, unique = true, length = 255)
     private String name;
 
-    @Column(name = "region", length = 255)
+    @Column(name = "\"region\"", length = 255)
     private String region;
 
-    @Column(name = "status", length = 255)
+    @Column(name = "\"status\"", length = 255)
     private String status;
 
-    @Column(name = "attributes", length = 5000)
+    @Column(name = "\"attributes\"", length = 5000)
     private String attributes;
 
     // Default constructor for JPA

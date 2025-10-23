@@ -8,10 +8,10 @@ public class JpaCategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 50)
+    @Column(name = "\"name\"", nullable = false, unique = true, length = 50)
     private String name;
 
     public JpaCategoryEntity() {

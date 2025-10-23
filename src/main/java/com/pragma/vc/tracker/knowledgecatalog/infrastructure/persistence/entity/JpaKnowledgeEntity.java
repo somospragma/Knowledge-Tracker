@@ -8,22 +8,22 @@ public class JpaKnowledgeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "category_id", nullable = false)
+    @Column(name = "\"category_id\"", nullable = false)
     private Long categoryId;
 
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "\"name\"", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "description", length = 500)
+    @Column(name = "\"description\"", length = 500)
     private String description;
 
-    @Column(name = "approved_status", length = 255)
+    @Column(name = "\"approved_status\"", length = 255)
     private String approvalStatus;
 
-    @Column(name = "attributes", length = 5000)
+    @Column(name = "\"attributes\"", length = 5000)
     private String attributes;
 
     public JpaKnowledgeEntity() {

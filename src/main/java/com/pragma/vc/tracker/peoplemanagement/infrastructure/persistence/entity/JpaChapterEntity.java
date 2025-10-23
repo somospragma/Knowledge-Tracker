@@ -12,10 +12,10 @@ public class JpaChapterEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 255)
+    @Column(name = "\"name\"", nullable = false, unique = true, length = 255)
     private String name;
 
     // Default constructor for JPA

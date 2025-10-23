@@ -12,22 +12,22 @@ public class JpaPragmaticEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "chapter_id")
+    @Column(name = "\"chapter_id\"")
     private Long chapterId;
 
-    @Column(name = "email", nullable = false, unique = true, length = 255)
+    @Column(name = "\"email\"", nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "first_name", length = 100)
+    @Column(name = "\"first_name\"", length = 100)
     private String firstName;
 
-    @Column(name = "last_name", length = 100)
+    @Column(name = "\"last_name\"", length = 100)
     private String lastName;
 
-    @Column(name = "status", length = 50)
+    @Column(name = "\"status\"", length = 50)
     private String status;
 
     // Default constructor for JPA
