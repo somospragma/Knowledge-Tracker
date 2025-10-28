@@ -130,10 +130,47 @@ Infrastructure Layer (Spring, JPA, REST)
 
 **Critical Implementation Rules:**
 - ✅ Domain layer: NO Spring annotations, NO JPA, NO framework dependencies
-- ✅ Application layer: Depends ONLY on domain interfaces (ports)
+- ✅ Application layer: Depends ONLY on domain interfaces (ports), NO Spring annotations
 - ✅ Infrastructure layer: Implements ports, uses Spring framework
 - ❌ NEVER import infrastructure code into domain/application layers
 - ❌ NEVER use `@Entity` in domain layer - use it only in infrastructure/persistence adapters
+- ❌ NEVER use `@Service` or `@Transactional` in application layer - use `@Configuration` classes instead
+
+**Application Layer Service Registration:**
+Application services (use cases) MUST be plain Java classes without Spring annotations. Register them as Spring beans using `@Configuration` classes in the infrastructure layer:
+
+```java
+// Application Layer (application/usecase/AccountService.java)
+public class AccountService {  // Plain class, no annotations
+    private final AccountRepository accountRepository;
+
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    public AccountDTO createAccount(CreateAccountCommand command) {
+        // Business logic
+    }
+}
+
+// Infrastructure Layer (infrastructure/config/ProjectManagementConfig.java)
+@Configuration
+public class ProjectManagementConfig {
+
+    @Bean
+    public AccountService accountService(AccountRepository accountRepository) {
+        return new AccountService(accountRepository);
+    }
+}
+```
+
+**Why Configuration-Based Registration?**
+1. ✅ Keeps application layer completely framework-agnostic
+2. ✅ Services can be tested without Spring context
+3. ✅ True framework independence (can swap Spring for another framework)
+4. ✅ Follows hexagonal architecture strictly
+5. ✅ Transaction management handled at infrastructure layer (repository adapters)
+6. ✅ Clear separation of concerns - wiring is infrastructure concern
 
 **Correct Pattern Example:**
 ```

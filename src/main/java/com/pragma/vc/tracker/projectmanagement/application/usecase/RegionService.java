@@ -8,8 +8,6 @@ import com.pragma.vc.tracker.projectmanagement.application.mapper.RegionMapper;
 import com.pragma.vc.tracker.projectmanagement.domain.model.Region;
 import com.pragma.vc.tracker.projectmanagement.domain.model.RegionId;
 import com.pragma.vc.tracker.projectmanagement.domain.repository.RegionRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,8 +16,6 @@ import java.util.stream.Collectors;
  * Application Service for Region use cases
  * Orchestrates domain logic and coordinates with repositories
  */
-@Service
-@Transactional
 public class RegionService {
 
     private final RegionRepository regionRepository;
@@ -48,7 +44,6 @@ public class RegionService {
     /**
      * Get a Region by ID
      */
-    @Transactional(readOnly = true)
     public RegionDTO getRegionById(Long id) {
         RegionId regionId = RegionId.of(id);
         Region region = regionRepository.findById(regionId)
@@ -60,7 +55,6 @@ public class RegionService {
     /**
      * Get a Region by name
      */
-    @Transactional(readOnly = true)
     public RegionDTO getRegionByName(String name) {
         Region region = regionRepository.findByName(name)
             .orElseThrow(() -> new RegionNotFoundException(name));
@@ -71,7 +65,6 @@ public class RegionService {
     /**
      * Get all Regions
      */
-    @Transactional(readOnly = true)
     public List<RegionDTO> getAllRegions() {
         return regionRepository.findAll().stream()
             .map(RegionMapper::toDTO)

@@ -20,14 +20,10 @@ import com.pragma.vc.tracker.knowledgecatalog.domain.repository.KnowledgeReposit
 import com.pragma.vc.tracker.knowledgecatalog.domain.repository.LevelRepository;
 import com.pragma.vc.tracker.knowledgecatalog.domain.exception.KnowledgeNotFoundException;
 import com.pragma.vc.tracker.knowledgecatalog.domain.exception.LevelNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@Transactional
 public class AppliedKnowledgeService {
     private final AppliedKnowledgeRepository appliedKnowledgeRepository;
     private final ProjectRepository projectRepository;
@@ -91,42 +87,36 @@ public class AppliedKnowledgeService {
         return AppliedKnowledgeMapper.toDTO(saved);
     }
 
-    @Transactional(readOnly = true)
     public AppliedKnowledgeDTO getAppliedKnowledgeById(Long id) {
         AppliedKnowledge appliedKnowledge = appliedKnowledgeRepository.findById(AppliedKnowledgeId.of(id))
                 .orElseThrow(() -> new AppliedKnowledgeNotFoundException(id));
         return AppliedKnowledgeMapper.toDTO(appliedKnowledge);
     }
 
-    @Transactional(readOnly = true)
     public List<AppliedKnowledgeDTO> getAllAppliedKnowledge() {
         return appliedKnowledgeRepository.findAll().stream()
                 .map(AppliedKnowledgeMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<AppliedKnowledgeDTO> getAppliedKnowledgeByProjectId(Long projectId) {
         return appliedKnowledgeRepository.findByProjectId(ProjectId.of(projectId)).stream()
                 .map(AppliedKnowledgeMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<AppliedKnowledgeDTO> getAppliedKnowledgeByPragmaticId(Long pragmaticId) {
         return appliedKnowledgeRepository.findByPragmaticId(PragmaticId.of(pragmaticId)).stream()
                 .map(AppliedKnowledgeMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<AppliedKnowledgeDTO> getAppliedKnowledgeByKnowledgeId(Long knowledgeId) {
         return appliedKnowledgeRepository.findByKnowledgeId(KnowledgeId.of(knowledgeId)).stream()
                 .map(AppliedKnowledgeMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<AppliedKnowledgeDTO> getAppliedKnowledgeByProjectAndPragmatic(Long projectId, Long pragmaticId) {
         return appliedKnowledgeRepository.findByProjectIdAndPragmaticId(
                 ProjectId.of(projectId),
