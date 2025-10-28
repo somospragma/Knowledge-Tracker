@@ -1,35 +1,23 @@
 package com.pragma.vc.tracker.projectmanagement.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 
 /**
- * JPA Entity for Account persistence
+ * JPA Entity for Region persistence
  * This is in the infrastructure layer and contains framework-specific annotations
  */
 @Entity
-@Table(name = "\"Account\"")
-public class JpaAccountEntity {
+@Table(name = "\"Region\"")
+public class JpaRegionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "\"region_id\"", nullable = false)
-    private Long regionId;
-
-    @Column(name = "\"name\"", nullable = false, length = 255)
+    @Column(name = "\"name\"", nullable = false, unique = true, length = 255)
     private String name;
-
-    @Column(name = "\"status\"", length = 255)
-    private String status;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "\"attributes\"", columnDefinition = "jsonb")
-    private String attributes;
 
     @Column(name = "\"created_at\"", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -38,16 +26,12 @@ public class JpaAccountEntity {
     private LocalDateTime updatedAt;
 
     // Default constructor for JPA
-    public JpaAccountEntity() {
+    public JpaRegionEntity() {
     }
 
-    public JpaAccountEntity(Long id, Long regionId, String name, String status, String attributes,
-                           LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public JpaRegionEntity(Long id, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.regionId = regionId;
         this.name = name;
-        this.status = status;
-        this.attributes = attributes;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -71,36 +55,12 @@ public class JpaAccountEntity {
         this.id = id;
     }
 
-    public Long getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(Long regionId) {
-        this.regionId = regionId;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(String attributes) {
-        this.attributes = attributes;
     }
 
     public LocalDateTime getCreatedAt() {

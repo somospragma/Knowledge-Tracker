@@ -12,14 +12,18 @@ public class PragmaticEntityMapper {
         if (pragmatic == null) {
             return null;
         }
-        return new JpaPragmaticEntity(
-            pragmatic.getId() != null ? pragmatic.getId().getValue() : null,
-            pragmatic.getChapterId() != null ? pragmatic.getChapterId().getValue() : null,
-            pragmatic.getEmail().getValue(),
-            pragmatic.getFirstName(),
-            pragmatic.getLastName(),
-            pragmatic.getStatus().name()
-        );
+        JpaPragmaticEntity entity = new JpaPragmaticEntity();
+        if (pragmatic.getId() != null) {
+            entity.setId(pragmatic.getId().getValue());
+        }
+        if (pragmatic.getChapterId() != null) {
+            entity.setChapterId(pragmatic.getChapterId().getValue());
+        }
+        entity.setEmail(pragmatic.getEmail().getValue());
+        entity.setFirstName(pragmatic.getFirstName());
+        entity.setLastName(pragmatic.getLastName());
+        entity.setStatus(pragmatic.getStatus().name());
+        return entity;
     }
 
     public static Pragmatic toDomain(JpaPragmaticEntity entity) {

@@ -8,10 +8,12 @@ public class CategoryEntityMapper {
 
     public static JpaCategoryEntity toEntity(Category category) {
         if (category == null) return null;
-        return new JpaCategoryEntity(
-            category.getId() != null ? category.getId().getValue() : null,
-            category.getName()
-        );
+        JpaCategoryEntity entity = new JpaCategoryEntity();
+        if (category.getId() != null) {
+            entity.setId(category.getId().getValue());
+        }
+        entity.setName(category.getName());
+        return entity;
     }
 
     public static Category toDomain(JpaCategoryEntity entity) {

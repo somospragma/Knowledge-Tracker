@@ -1,10 +1,10 @@
--- Sample Data for Pragma Knowledge Tracker
+-- Sample Data for Pragma knowledge Tracker
 -- This file populates the database with realistic test data
 
 -- =====================================================
--- Chapters (Organizational Units)
+-- chapters (Organizational Units)
 -- =====================================================
-INSERT INTO "Chapter" ("id", "name") VALUES
+INSERT INTO "chapter" ("id", "name") VALUES
 (1, 'Backend Development'),
 (2, 'Frontend Development'),
 (3, 'DevOps & Infrastructure'),
@@ -13,75 +13,75 @@ INSERT INTO "Chapter" ("id", "name") VALUES
 (6, 'QA & Testing');
 
 -- =====================================================
--- Accounts (Client Organizations)
+-- accounts (Client Organizations)
 -- =====================================================
-INSERT INTO "Account" ("id", "name", "region", "status", "attributes") VALUES
+INSERT INTO "account" ("id", "name", "region", "status", "attributes") VALUES
 (1, 'Bancolombia', 'Latin America', 'Active', '{"industry": "Banking", "size": "Enterprise"}'),
 (2, 'Rappi', 'Latin America', 'Active', '{"industry": "E-commerce", "size": "Large"}'),
 (3, 'Falabella', 'Latin America', 'Active', '{"industry": "Retail", "size": "Enterprise"}'),
-(4, 'TelefÛnica', 'Latin America', 'Active', '{"industry": "Telecommunications", "size": "Enterprise"}'),
+(4, 'Telef√≥nica', 'Latin America', 'Active', '{"industry": "Telecommunications", "size": "Enterprise"}'),
 (5, 'Gobierno Digital', 'Colombia', 'Active', '{"industry": "Government", "size": "Public Sector"}'),
 (6, 'Avianca', 'Latin America', 'Inactive', '{"industry": "Aviation", "size": "Large"}');
 
 -- =====================================================
--- Pragmatics (Pragma SA Employees)
+-- pragmatics (Pragma SA Employees)
 -- =====================================================
-INSERT INTO "Pragmatic" ("id", "chapter_id", "email", "first_name", "last_name", "status") VALUES
--- Backend Chapter
-(1, 1, 'juan.perez@pragma.com.co', 'Juan', 'PÈrez', 'Active'),
-(2, 1, 'maria.garcia@pragma.com.co', 'MarÌa', 'GarcÌa', 'Active'),
-(3, 1, 'carlos.rodriguez@pragma.com.co', 'Carlos', 'RodrÌguez', 'Active'),
-(4, 1, 'ana.martinez@pragma.com.co', 'Ana', 'MartÌnez', 'OnLeave'),
+INSERT INTO "pragmatic" ("id", "chapter_id", "email", "first_name", "last_name", "status") VALUES
+-- Backend chapter
+(1, 1, 'juan.perez@pragma.com.co', 'Juan', 'P√©rez', 'Active'),
+(2, 1, 'maria.garcia@pragma.com.co', 'Mar√≠a', 'Garc√≠a', 'Active'),
+(3, 1, 'carlos.rodriguez@pragma.com.co', 'Carlos', 'Rodr√≠guez', 'Active'),
+(4, 1, 'ana.martinez@pragma.com.co', 'Ana', 'Mart√≠nez', 'OnLeave'),
 
--- Frontend Chapter
-(5, 2, 'luis.lopez@pragma.com.co', 'Luis', 'LÛpez', 'Active'),
-(6, 2, 'sofia.gonzalez@pragma.com.co', 'SofÌa', 'Gonz·lez', 'Active'),
-(7, 2, 'diego.hernandez@pragma.com.co', 'Diego', 'Hern·ndez', 'Active'),
+-- Frontend chapter
+(5, 2, 'luis.lopez@pragma.com.co', 'Luis', 'L√≥pez', 'Active'),
+(6, 2, 'sofia.gonzalez@pragma.com.co', 'Sof√≠a', 'Gonz√°lez', 'Active'),
+(7, 2, 'diego.hernandez@pragma.com.co', 'Diego', 'Hern√°ndez', 'Active'),
 
--- DevOps Chapter
-(8, 3, 'laura.diaz@pragma.com.co', 'Laura', 'DÌaz', 'Active'),
-(9, 3, 'jorge.sanchez@pragma.com.co', 'Jorge', 'S·nchez', 'Active'),
+-- DevOps chapter
+(8, 3, 'laura.diaz@pragma.com.co', 'Laura', 'D√≠az', 'Active'),
+(9, 3, 'jorge.sanchez@pragma.com.co', 'Jorge', 'S√°nchez', 'Active'),
 
--- Data Engineering Chapter
-(10, 4, 'paula.ramirez@pragma.com.co', 'Paula', 'RamÌrez', 'Active'),
-(11, 4, 'andres.torres@pragma.com.co', 'AndrÈs', 'Torres', 'Active'),
+-- Data Engineering chapter
+(10, 4, 'paula.ramirez@pragma.com.co', 'Paula', 'Ram√≠rez', 'Active'),
+(11, 4, 'andres.torres@pragma.com.co', 'Andr√©s', 'Torres', 'Active'),
 
--- Mobile Chapter
+-- Mobile chapter
 (12, 5, 'camila.flores@pragma.com.co', 'Camila', 'Flores', 'Active'),
 (13, 5, 'santiago.castro@pragma.com.co', 'Santiago', 'Castro', 'Active'),
 
--- QA Chapter
+-- QA chapter
 (14, 6, 'natalia.moreno@pragma.com.co', 'Natalia', 'Moreno', 'Active'),
 (15, 6, 'felipe.vargas@pragma.com.co', 'Felipe', 'Vargas', 'Inactive');
 
 -- =====================================================
--- Projects
+-- projects
 -- =====================================================
-INSERT INTO "Project" ("id", "account_id", "name", "status", "startDate", "endDate", "type", "attributes") VALUES
--- Bancolombia Projects
+INSERT INTO "project" ("id", "account_id", "name", "status", "start_date", "end_date", "type", "attributes") VALUES
+-- Bancolombia projects
 (1, 1, 'Bancolombia - Core Banking Modernization', 'Active', '2024-01-15 00:00:00', NULL, 'Abierto', '{"budget": "high", "priority": "critical"}'),
 (2, 1, 'Bancolombia - Mobile Banking App', 'Active', '2024-03-01 00:00:00', NULL, 'Abierto', '{"budget": "medium", "priority": "high"}'),
 
--- Rappi Projects
+-- Rappi projects
 (3, 2, 'Rappi - Microservices Platform', 'Active', '2023-11-20 00:00:00', NULL, 'Abierto', '{"budget": "high", "priority": "high"}'),
 (4, 2, 'Rappi - Analytics Dashboard', 'Completed', '2023-08-10 00:00:00', '2024-02-28 00:00:00', 'Cerrado', '{"budget": "medium", "priority": "medium"}'),
 
--- Falabella Projects
+-- Falabella projects
 (5, 3, 'Falabella - E-commerce Platform Upgrade', 'Active', '2024-02-01 00:00:00', NULL, 'Abierto', '{"budget": "high", "priority": "high"}'),
 
--- TelefÛnica Projects
-(6, 4, 'TelefÛnica - Customer Portal', 'Active', '2024-04-01 00:00:00', '2024-12-31 00:00:00', 'Cerrado', '{"budget": "medium", "priority": "medium"}'),
+-- Telef√≥nica projects
+(6, 4, 'Telef√≥nica - Customer Portal', 'Active', '2024-04-01 00:00:00', '2024-12-31 00:00:00', 'Cerrado', '{"budget": "medium", "priority": "medium"}'),
 
--- Government Projects
+-- Government projects
 (7, 5, 'GOV.CO - Citizen Services Platform', 'Active', '2023-09-01 00:00:00', NULL, 'Abierto', '{"budget": "high", "priority": "critical"}'),
 
--- Inactive Account Project
+-- Inactive account project
 (8, 6, 'Avianca - Legacy System Migration', 'Inactive', '2023-05-01 00:00:00', '2023-10-15 00:00:00', 'Cerrado', '{"budget": "medium", "priority": "low"}');
 
 -- =====================================================
--- Knowledge Categories
+-- knowledge Categories
 -- =====================================================
-INSERT INTO "Knowledge_Category" ("id", "name") VALUES
+INSERT INTO "knowledge_category" ("id", "name") VALUES
 (1, 'Platform'),
 (2, 'Language'),
 (3, 'Framework'),
@@ -89,7 +89,7 @@ INSERT INTO "Knowledge_Category" ("id", "name") VALUES
 (5, 'Technique');
 
 -- =====================================================
--- Knowledge Items
+-- knowledge Items
 -- =====================================================
 INSERT INTO "knowledge" ("id", "category_id", "name", "description", "approved_status", "attributes") VALUES
 -- Platforms
@@ -138,79 +138,79 @@ INSERT INTO "knowledge" ("id", "category_id", "name", "description", "approved_s
 (35, 5, 'Hexagonal Architecture', 'Ports and adapters pattern', 'Approved', '{"category": "Architecture"}'),
 (36, 5, 'Event-Driven Architecture', 'Architectural pattern', 'Approved', '{"category": "Architecture"}'),
 (37, 5, 'RESTful API Design', 'API design principles', 'Approved', '{"category": "Design"}'),
-(38, 5, 'Agile Methodology', 'Project management approach', 'Approved', '{"category": "Process"}'),
+(38, 5, 'Agile Methodology', 'project management approach', 'Approved', '{"category": "Process"}'),
 (39, 5, 'CQRS Pattern', 'Command Query Responsibility Segregation', 'Approved', '{"category": "Architecture"}'),
 (40, 5, 'OAuth 2.0', 'Authorization framework', 'Approved', '{"category": "Security"}');
 
 -- =====================================================
--- Knowledge Levels
+-- knowledge Levels
 -- =====================================================
-INSERT INTO "Knowledge_Level" ("id", "name", "attributes") VALUES
+INSERT INTO "knowledge_level" ("id", "name", "attributes") VALUES
 (1, 'Beginner', '{"description": "Basic understanding, can perform simple tasks with guidance"}'),
 (2, 'Intermediate', '{"description": "Solid understanding, can work independently on most tasks"}'),
 (3, 'Advanced', '{"description": "Deep expertise, can handle complex scenarios and mentor others"}'),
 (4, 'Expert', '{"description": "Mastery level, recognized authority, can architect solutions"}');
 
 -- =====================================================
--- Applied Knowledge (Knowledge applied to projects by pragmatics)
+-- Applied knowledge (knowledge applied to projects by pragmatics)
 -- =====================================================
-INSERT INTO "Applied_Knowledge" ("id", "project_id", "pragmatic_id", "knowledge_id", "startDate", "knowledge_level") VALUES
--- Project 1: Bancolombia - Core Banking Modernization
-(1, 1, 1, 6, '2024-01-15 00:00:00', 4),   -- Juan: Java - Expert
-(2, 1, 1, 13, '2024-01-15 00:00:00', 4),  -- Juan: Spring Boot - Expert
-(3, 1, 1, 21, '2024-01-15 00:00:00', 3),  -- Juan: PostgreSQL - Advanced
-(4, 1, 1, 32, '2024-01-15 00:00:00', 3),  -- Juan: DDD - Advanced
-(5, 1, 2, 6, '2024-01-15 00:00:00', 3),   -- MarÌa: Java - Advanced
-(6, 1, 2, 13, '2024-01-15 00:00:00', 3),  -- MarÌa: Spring Boot - Advanced
-(7, 1, 2, 31, '2024-01-15 00:00:00', 3),  -- MarÌa: Microservices - Advanced
-(8, 1, 8, 4, '2024-01-15 00:00:00', 3),   -- Laura: Kubernetes - Advanced
-(9, 1, 8, 1, '2024-01-15 00:00:00', 3),   -- Laura: AWS - Advanced
+INSERT INTO "applied_knowledge" ("id", "project_id", "pragmatic_id", "knowledge_id", "start_date", "knowledge_level") VALUES
+-- project 1: Bancolombia - Core Banking Modernization
+(1, 1, 1, 6, '2024-01-15', 4),   -- Juan: Java - Expert
+(2, 1, 1, 13, '2024-01-15', 4),  -- Juan: Spring Boot - Expert
+(3, 1, 1, 21, '2024-01-15', 3),  -- Juan: PostgreSQL - Advanced
+(4, 1, 1, 32, '2024-01-15', 3),  -- Juan: DDD - Advanced
+(5, 1, 2, 6, '2024-01-15', 3),   -- Mar√≠a: Java - Advanced
+(6, 1, 2, 13, '2024-01-15', 3),  -- Mar√≠a: Spring Boot - Advanced
+(7, 1, 2, 31, '2024-01-15', 3),  -- Mar√≠a: Microservices - Advanced
+(8, 1, 8, 4, '2024-01-15', 3),   -- Laura: Kubernetes - Advanced
+(9, 1, 8, 1, '2024-01-15', 3),   -- Laura: AWS - Advanced
 
 -- Project 2: Bancolombia - Mobile Banking App
-(10, 2, 12, 12, '2024-03-01 00:00:00', 3), -- Camila: Swift - Advanced
-(11, 2, 12, 20, '2024-03-01 00:00:00', 2), -- Camila: React Native - Intermediate
-(12, 2, 13, 10, '2024-03-01 00:00:00', 3), -- Santiago: Kotlin - Advanced
-(13, 2, 5, 14, '2024-03-01 00:00:00', 3),  -- Luis: React - Advanced
-(14, 2, 14, 33, '2024-03-01 00:00:00', 2), -- Natalia: TDD - Intermediate
+(10, 2, 12, 12, '2024-03-01', 3), -- Camila: Swift - Advanced
+(11, 2, 12, 20, '2024-03-01', 2), -- Camila: React Native - Intermediate
+(12, 2, 13, 10, '2024-03-01', 3), -- Santiago: Kotlin - Advanced
+(13, 2, 5, 14, '2024-03-01', 3),  -- Luis: React - Advanced
+(14, 2, 14, 33, '2024-03-01', 2), -- Natalia: TDD - Intermediate
 
 -- Project 3: Rappi - Microservices Platform
-(15, 3, 3, 6, '2023-11-20 00:00:00', 3),   -- Carlos: Java - Advanced
-(16, 3, 3, 13, '2023-11-20 00:00:00', 4),  -- Carlos: Spring Boot - Expert
-(17, 3, 3, 31, '2023-11-20 00:00:00', 4),  -- Carlos: Microservices - Expert
-(18, 3, 3, 24, '2023-11-20 00:00:00', 3),  -- Carlos: Kafka - Advanced
-(19, 3, 9, 5, '2023-11-20 00:00:00', 4),   -- Jorge: Docker - Expert
-(20, 3, 9, 4, '2023-11-20 00:00:00', 3),   -- Jorge: Kubernetes - Advanced
-(21, 3, 9, 27, '2023-11-20 00:00:00', 3),  -- Jorge: GitLab CI - Advanced
+(15, 3, 3, 6, '2023-11-20', 3),   -- Carlos: Java - Advanced
+(16, 3, 3, 13, '2023-11-20', 4),  -- Carlos: Spring Boot - Expert
+(17, 3, 3, 31, '2023-11-20', 4),  -- Carlos: Microservices - Expert
+(18, 3, 3, 24, '2023-11-20', 3),  -- Carlos: Kafka - Advanced
+(19, 3, 9, 5, '2023-11-20', 4),   -- Jorge: Docker - Expert
+(20, 3, 9, 4, '2023-11-20', 3),   -- Jorge: Kubernetes - Advanced
+(21, 3, 9, 27, '2023-11-20', 3),  -- Jorge: GitLab CI - Advanced
 
 -- Project 4: Rappi - Analytics Dashboard (Completed)
-(22, 4, 10, 7, '2023-08-10 00:00:00', 3),  -- Paula: Python - Advanced
-(23, 4, 10, 17, '2023-08-10 00:00:00', 3), -- Paula: Django - Advanced
-(24, 4, 10, 30, '2023-08-10 00:00:00', 2), -- Paula: Elasticsearch - Intermediate
-(25, 4, 6, 14, '2023-08-10 00:00:00', 4),  -- SofÌa: React - Expert
-(26, 4, 6, 9, '2023-08-10 00:00:00', 3),   -- SofÌa: TypeScript - Advanced
+(22, 4, 10, 7, '2023-08-10', 3),  -- Paula: Python - Advanced
+(23, 4, 10, 17, '2023-08-10', 3), -- Paula: Django - Advanced
+(24, 4, 10, 30, '2023-08-10', 2), -- Paula: Elasticsearch - Intermediate
+(25, 4, 6, 14, '2023-08-10', 4),  -- Sof√≠a: React - Expert
+(26, 4, 6, 9, '2023-08-10', 3),   -- Sof√≠a: TypeScript - Advanced
 
 -- Project 5: Falabella - E-commerce Platform
-(27, 5, 1, 6, '2024-02-01 00:00:00', 4),   -- Juan: Java - Expert
-(28, 5, 1, 13, '2024-02-01 00:00:00', 4),  -- Juan: Spring Boot - Expert
-(29, 5, 2, 22, '2024-02-01 00:00:00', 3),  -- MarÌa: MongoDB - Advanced
-(30, 5, 2, 23, '2024-02-01 00:00:00', 3),  -- MarÌa: Redis - Advanced
-(31, 5, 5, 14, '2024-02-01 00:00:00', 3),  -- Luis: React - Advanced
-(32, 5, 7, 15, '2024-02-01 00:00:00', 3),  -- Diego: Angular - Advanced
-(33, 5, 9, 28, '2024-02-01 00:00:00', 3),  -- Jorge: Terraform - Advanced
+(27, 5, 1, 6, '2024-02-01', 4),   -- Juan: Java - Expert
+(28, 5, 1, 13, '2024-02-01', 4),  -- Juan: Spring Boot - Expert
+(29, 5, 2, 22, '2024-02-01', 3),  -- Mar√≠a: MongoDB - Advanced
+(30, 5, 2, 23, '2024-02-01', 3),  -- Mar√≠a: Redis - Advanced
+(31, 5, 5, 14, '2024-02-01', 3),  -- Luis: React - Advanced
+(32, 5, 7, 15, '2024-02-01', 3),  -- Diego: Angular - Advanced
+(33, 5, 9, 28, '2024-02-01', 3),  -- Jorge: Terraform - Advanced
 
--- Project 6: TelefÛnica - Customer Portal
-(34, 6, 11, 7, '2024-04-01 00:00:00', 3),  -- AndrÈs: Python - Advanced
-(35, 6, 11, 18, '2024-04-01 00:00:00', 4), -- AndrÈs: FastAPI - Expert
-(36, 6, 11, 21, '2024-04-01 00:00:00', 3), -- AndrÈs: PostgreSQL - Advanced
-(37, 6, 6, 16, '2024-04-01 00:00:00', 3),  -- SofÌa: Vue.js - Advanced
-(38, 6, 6, 9, '2024-04-01 00:00:00', 3),   -- SofÌa: TypeScript - Advanced
+-- Project 6: Telef√≥nica - Customer Portal
+(34, 6, 11, 7, '2024-04-01', 3),  -- Andr√©s: Python - Advanced
+(35, 6, 11, 18, '2024-04-01', 4), -- Andr√©s: FastAPI - Expert
+(36, 6, 11, 21, '2024-04-01', 3), -- Andr√©s: PostgreSQL - Advanced
+(37, 6, 6, 16, '2024-04-01', 3),  -- Sof√≠a: Vue.js - Advanced
+(38, 6, 6, 9, '2024-04-01', 3),   -- Sof√≠a: TypeScript - Advanced
 
 -- Project 7: Government - Citizen Services Platform
-(39, 7, 3, 6, '2023-09-01 00:00:00', 3),   -- Carlos: Java - Advanced
-(40, 7, 3, 13, '2023-09-01 00:00:00', 4),  -- Carlos: Spring Boot - Expert
-(41, 7, 3, 35, '2023-09-01 00:00:00', 3),  -- Carlos: Hexagonal Architecture - Advanced
-(42, 7, 5, 14, '2023-09-01 00:00:00', 3),  -- Luis: React - Advanced
-(43, 7, 8, 2, '2023-09-01 00:00:00', 3),   -- Laura: Azure - Advanced
-(44, 7, 8, 26, '2023-09-01 00:00:00', 2),  -- Laura: Jenkins - Intermediate
-(45, 7, 14, 33, '2023-09-01 00:00:00', 3), -- Natalia: TDD - Advanced
-(46, 7, 14, 38, '2023-09-01 00:00:00', 2); -- Natalia: Agile - Intermediate
+(39, 7, 3, 6, '2023-09-01', 3),   -- Carlos: Java - Advanced
+(40, 7, 3, 13, '2023-09-01', 4),  -- Carlos: Spring Boot - Expert
+(41, 7, 3, 35, '2023-09-01', 3),  -- Carlos: Hexagonal Architecture - Advanced
+(42, 7, 5, 14, '2023-09-01', 3),  -- Luis: React - Advanced
+(43, 7, 8, 2, '2023-09-01', 3),   -- Laura: Azure - Advanced
+(44, 7, 8, 26, '2023-09-01', 2),  -- Laura: Jenkins - Intermediate
+(45, 7, 14, 33, '2023-09-01', 3), -- Natalia: TDD - Advanced
+(46, 7, 14, 38, '2023-09-01', 2); -- Natalia: Agile - Intermediate

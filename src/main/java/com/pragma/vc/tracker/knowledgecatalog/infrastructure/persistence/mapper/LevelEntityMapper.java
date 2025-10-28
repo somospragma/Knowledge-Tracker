@@ -15,11 +15,13 @@ public class LevelEntityMapper {
 
     public static JpaLevelEntity toEntity(Level level) {
         if (level == null) return null;
-        return new JpaLevelEntity(
-            level.getId() != null ? level.getId().getValue() : null,
-            level.getName(),
-            serializeAttributes(level.getAttributes())
-        );
+        JpaLevelEntity entity = new JpaLevelEntity();
+        if (level.getId() != null) {
+            entity.setId(level.getId().getValue());
+        }
+        entity.setName(level.getName());
+        entity.setAttributes(serializeAttributes(level.getAttributes()));
+        return entity;
     }
 
     public static Level toDomain(JpaLevelEntity entity) {

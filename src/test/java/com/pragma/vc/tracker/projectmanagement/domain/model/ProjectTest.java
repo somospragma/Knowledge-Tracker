@@ -2,7 +2,7 @@ package com.pragma.vc.tracker.projectmanagement.domain.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ class ProjectTest {
         AccountId accountId = AccountId.of(1L);
         String name = "Banking Platform";
         ProjectStatus status = ProjectStatus.ACTIVE;
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         ProjectType type = ProjectType.ABIERTO;
         Map<String, String> attributes = new HashMap<>();
         attributes.put("priority", "high");
@@ -71,7 +71,7 @@ class ProjectTest {
     void shouldActivateProject() {
         // Given
         AccountId accountId = AccountId.of(1L);
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         Project project = Project.create(accountId, "Project", ProjectStatus.INACTIVE, dateRange, ProjectType.ABIERTO, null);
 
         // When
@@ -96,7 +96,7 @@ class ProjectTest {
     void shouldCompleteProject() {
         // Given
         AccountId accountId = AccountId.of(1L);
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         Project project = Project.create(accountId, "Project", ProjectStatus.ACTIVE, dateRange, ProjectType.ABIERTO, null);
 
         // When
@@ -110,7 +110,7 @@ class ProjectTest {
     void shouldPutProjectOnHold() {
         // Given
         AccountId accountId = AccountId.of(1L);
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         Project project = Project.create(accountId, "Project", ProjectStatus.ACTIVE, dateRange, ProjectType.ABIERTO, null);
 
         // When
@@ -124,7 +124,7 @@ class ProjectTest {
     void shouldThrowExceptionWhenPuttingCompletedProjectOnHold() {
         // Given
         AccountId accountId = AccountId.of(1L);
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         Project project = Project.create(accountId, "Project", ProjectStatus.COMPLETED, dateRange, ProjectType.ABIERTO, null);
 
         // When & Then
@@ -135,7 +135,7 @@ class ProjectTest {
     void shouldUpdateProjectName() {
         // Given
         AccountId accountId = AccountId.of(1L);
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         Project project = Project.create(accountId, "Old Name", ProjectStatus.ACTIVE, dateRange, ProjectType.ABIERTO, null);
         String newName = "New Name";
 
@@ -150,7 +150,7 @@ class ProjectTest {
     void shouldUpdateProjectType() {
         // Given
         AccountId accountId = AccountId.of(1L);
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         Project project = Project.create(accountId, "Project", ProjectStatus.ACTIVE, dateRange, ProjectType.ABIERTO, null);
 
         // When
@@ -176,7 +176,7 @@ class ProjectTest {
     void shouldAcceptNewAssignmentsWhenActiveOrOnHold() {
         // Given
         AccountId accountId = AccountId.of(1L);
-        DateRange dateRange = DateRange.from(LocalDateTime.now());
+        DateRange dateRange = DateRange.from(LocalDate.now());
         Project activeProject = Project.create(accountId, "Active", ProjectStatus.ACTIVE, dateRange, ProjectType.ABIERTO, null);
         Project onHoldProject = Project.create(accountId, "OnHold", ProjectStatus.ON_HOLD, dateRange, ProjectType.ABIERTO, null);
         Project completedProject = Project.create(accountId, "Completed", ProjectStatus.COMPLETED, dateRange, ProjectType.ABIERTO, null);

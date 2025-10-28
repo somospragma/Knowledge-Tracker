@@ -1,6 +1,9 @@
 package com.pragma.vc.tracker.projectmanagement.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -25,24 +28,32 @@ public class JpaProjectEntity {
     @Column(name = "\"status\"", nullable = false, length = 255)
     private String status;
 
-    @Column(name = "\"startDate\"")
-    private LocalDateTime startDate;
+    @Column(name = "\"start_date\"", nullable = false)
+    private LocalDate startDate;
 
-    @Column(name = "\"endDate\"")
-    private LocalDateTime endDate;
+    @Column(name = "\"end_date\"")
+    private LocalDate endDate;
 
     @Column(name = "\"type\"", length = 255)
     private String type;
 
-    @Column(name = "\"attributes\"", length = 5000)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "\"attributes\"", columnDefinition = "jsonb")
     private String attributes;
+
+    @Column(name = "\"created_at\"", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "\"updated_at\"")
+    private LocalDateTime updatedAt;
 
     // Default constructor for JPA
     public JpaProjectEntity() {
     }
 
     public JpaProjectEntity(Long id, Long accountId, String name, String status,
-                           LocalDateTime startDate, LocalDateTime endDate, String type, String attributes) {
+                           LocalDate startDate, LocalDate endDate, String type, String attributes,
+                           LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.accountId = accountId;
         this.name = name;
@@ -51,6 +62,18 @@ public class JpaProjectEntity {
         this.endDate = endDate;
         this.type = type;
         this.attributes = attributes;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -86,19 +109,19 @@ public class JpaProjectEntity {
         this.status = status;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -116,5 +139,21 @@ public class JpaProjectEntity {
 
     public void setAttributes(String attributes) {
         this.attributes = attributes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

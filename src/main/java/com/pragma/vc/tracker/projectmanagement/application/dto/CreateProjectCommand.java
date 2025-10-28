@@ -1,6 +1,6 @@
 package com.pragma.vc.tracker.projectmanagement.application.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -10,16 +10,16 @@ public class CreateProjectCommand {
     private Long accountId;
     private String name;
     private String status;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String type;
     private Map<String, String> attributes;
 
     public CreateProjectCommand() {
     }
 
-    public CreateProjectCommand(Long accountId, String name, String status, LocalDateTime startDate,
-                               LocalDateTime endDate, String type, Map<String, String> attributes) {
+    public CreateProjectCommand(Long accountId, String name, String status, LocalDate startDate,
+                               LocalDate endDate, String type, Map<String, String> attributes) {
         this.accountId = accountId;
         this.name = name;
         this.status = status;
@@ -53,19 +53,19 @@ public class CreateProjectCommand {
         this.status = status;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

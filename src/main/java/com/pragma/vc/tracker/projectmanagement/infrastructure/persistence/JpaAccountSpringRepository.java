@@ -16,7 +16,7 @@ public interface JpaAccountSpringRepository extends JpaRepository<JpaAccountEnti
 
     List<JpaAccountEntity> findByStatus(String status);
 
-    List<JpaAccountEntity> findByRegion(String region);
+    List<JpaAccountEntity> findByRegionId(Long regionId);
 
     boolean existsByName(String name);
 }

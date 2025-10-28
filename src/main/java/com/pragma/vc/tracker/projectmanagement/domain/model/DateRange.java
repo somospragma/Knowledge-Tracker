@@ -1,6 +1,6 @@
 package com.pragma.vc.tracker.projectmanagement.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -9,10 +9,10 @@ import java.util.Objects;
  * Immutable and self-validating
  */
 public class DateRange {
-    private final LocalDateTime startDate;
-    private final LocalDateTime endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
 
-    private DateRange(LocalDateTime startDate, LocalDateTime endDate) {
+    private DateRange(LocalDate startDate, LocalDate endDate) {
         if (startDate == null) {
             throw new IllegalArgumentException("Start date cannot be null");
         }
@@ -23,19 +23,19 @@ public class DateRange {
         this.endDate = endDate;
     }
 
-    public static DateRange of(LocalDateTime startDate, LocalDateTime endDate) {
+    public static DateRange of(LocalDate startDate, LocalDate endDate) {
         return new DateRange(startDate, endDate);
     }
 
-    public static DateRange from(LocalDateTime startDate) {
+    public static DateRange from(LocalDate startDate) {
         return new DateRange(startDate, null);
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -44,17 +44,17 @@ public class DateRange {
     }
 
     public boolean isCompleted() {
-        return endDate != null && endDate.isBefore(LocalDateTime.now());
+        return endDate != null && endDate.isBefore(LocalDate.now());
     }
 
     public boolean isActive() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
         return !startDate.isAfter(now) && (endDate == null || endDate.isAfter(now));
     }
 
     public long getDurationInDays() {
         if (endDate == null) {
-            return ChronoUnit.DAYS.between(startDate, LocalDateTime.now());
+            return ChronoUnit.DAYS.between(startDate, LocalDate.now());
         }
         return ChronoUnit.DAYS.between(startDate, endDate);
     }

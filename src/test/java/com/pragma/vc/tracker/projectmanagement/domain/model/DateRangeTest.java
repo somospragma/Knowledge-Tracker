@@ -2,7 +2,7 @@ package com.pragma.vc.tracker.projectmanagement.domain.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,8 +14,8 @@ class DateRangeTest {
     @Test
     void shouldCreateDateRangeWithStartAndEndDate() {
         // Given
-        LocalDateTime start = LocalDateTime.of(2024, 1, 1, 0, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 12, 31, 23, 59);
+        LocalDate start = LocalDate.of(2024, 1, 1);
+        LocalDate end = LocalDate.of(2024, 12, 31);
 
         // When
         DateRange dateRange = DateRange.of(start, end);
@@ -30,7 +30,7 @@ class DateRangeTest {
     @Test
     void shouldCreateOngoingDateRange() {
         // Given
-        LocalDateTime start = LocalDateTime.of(2024, 1, 1, 0, 0);
+        LocalDate start = LocalDate.of(2024, 1, 1);
 
         // When
         DateRange dateRange = DateRange.from(start);
@@ -46,15 +46,15 @@ class DateRangeTest {
     void shouldThrowExceptionWhenStartDateIsNull() {
         // When & Then
         assertThrows(IllegalArgumentException.class, () ->
-            DateRange.of(null, LocalDateTime.now())
+            DateRange.of(null, LocalDate.now())
         );
     }
 
     @Test
     void shouldThrowExceptionWhenEndDateIsBeforeStartDate() {
         // Given
-        LocalDateTime start = LocalDateTime.of(2024, 12, 31, 0, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 1, 1, 0, 0);
+        LocalDate start = LocalDate.of(2024, 12, 31);
+        LocalDate end = LocalDate.of(2024, 1, 1);
 
         // When & Then
         assertThrows(IllegalArgumentException.class, () ->
@@ -65,8 +65,8 @@ class DateRangeTest {
     @Test
     void shouldCalculateDurationInDays() {
         // Given
-        LocalDateTime start = LocalDateTime.of(2024, 1, 1, 0, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 1, 11, 0, 0);
+        LocalDate start = LocalDate.of(2024, 1, 1);
+        LocalDate end = LocalDate.of(2024, 1, 11);
         DateRange dateRange = DateRange.of(start, end);
 
         // When
@@ -79,8 +79,8 @@ class DateRangeTest {
     @Test
     void shouldIdentifyCompletedDateRange() {
         // Given
-        LocalDateTime start = LocalDateTime.of(2020, 1, 1, 0, 0);
-        LocalDateTime end = LocalDateTime.of(2020, 12, 31, 0, 0);
+        LocalDate start = LocalDate.of(2020, 1, 1);
+        LocalDate end = LocalDate.of(2020, 12, 31);
         DateRange dateRange = DateRange.of(start, end);
 
         // Then
@@ -91,8 +91,8 @@ class DateRangeTest {
     @Test
     void shouldBeEqualWhenDatesAreTheSame() {
         // Given
-        LocalDateTime start = LocalDateTime.of(2024, 1, 1, 0, 0);
-        LocalDateTime end = LocalDateTime.of(2024, 12, 31, 0, 0);
+        LocalDate start = LocalDate.of(2024, 1, 1);
+        LocalDate end = LocalDate.of(2024, 12, 31);
         DateRange dateRange1 = DateRange.of(start, end);
         DateRange dateRange2 = DateRange.of(start, end);
 

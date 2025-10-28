@@ -18,6 +18,7 @@ spring:
     hibernate:
       ddl-auto: update  # Use schema.sql.bak for tests
     show-sql: true
+    #defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
@@ -30,7 +31,7 @@ spring:
     init:
       mode: always
       #schema-locations: classpath:schema.sql.bak
-      #data-locations: classpath:data.sql.old
+      #data-locations: classpath:sql/data-test.sql
       continue-on-error: false
 
 # Test Logging

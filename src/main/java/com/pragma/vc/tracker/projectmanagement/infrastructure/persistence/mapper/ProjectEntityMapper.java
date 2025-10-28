@@ -20,16 +20,20 @@ public class ProjectEntityMapper {
         if (project == null) {
             return null;
         }
-        return new JpaProjectEntity(
-            project.getId() != null ? project.getId().getValue() : null,
-            project.getAccountId().getValue(),
-            project.getName(),
-            project.getStatus().name(),
-            project.getDateRange() != null ? project.getDateRange().getStartDate() : null,
-            project.getDateRange() != null ? project.getDateRange().getEndDate() : null,
-            project.getType().name(),
-            serializeAttributes(project.getAttributes())
-        );
+        JpaProjectEntity entity = new JpaProjectEntity();
+        if (project.getId() != null) {
+            entity.setId(project.getId().getValue());
+        }
+        entity.setAccountId(project.getAccountId().getValue());
+        entity.setName(project.getName());
+        entity.setStatus(project.getStatus().name());
+        if (project.getDateRange() != null) {
+            entity.setStartDate(project.getDateRange().getStartDate());
+            entity.setEndDate(project.getDateRange().getEndDate());
+        }
+        entity.setType(project.getType().name());
+        entity.setAttributes(serializeAttributes(project.getAttributes()));
+        return entity;
     }
 
     public static Project toDomain(JpaProjectEntity entity) {

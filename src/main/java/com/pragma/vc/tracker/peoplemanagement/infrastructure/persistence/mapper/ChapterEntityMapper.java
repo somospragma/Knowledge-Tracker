@@ -13,10 +13,16 @@ public class ChapterEntityMapper {
         if (chapter == null) {
             return null;
         }
-        return new JpaChapterEntity(
-            chapter.getId() != null ? chapter.getId().getValue() : null,
-            chapter.getName()
-        );
+        JpaChapterEntity entity = new JpaChapterEntity();
+        if (chapter.getId() != null) {
+            entity.setId(chapter.getId().getValue());
+        }
+        // TODO: For now, we'll use a default kcId of 1
+        // This should be properly mapped from domain model when KC-Team entity is fully integrated
+        entity.setKcId(1L);
+        entity.setName(chapter.getName());
+        entity.setStatus("Active");
+        return entity;
     }
 
     public static Chapter toDomain(JpaChapterEntity entity) {

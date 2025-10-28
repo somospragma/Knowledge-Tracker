@@ -1,6 +1,8 @@
 package com.pragma.vc.tracker.knowledgecatalog.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "\"knowledge\"")
@@ -23,7 +25,8 @@ public class JpaKnowledgeEntity {
     @Column(name = "\"approved_status\"", length = 255)
     private String approvalStatus;
 
-    @Column(name = "\"attributes\"", length = 5000)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "\"attributes\"", columnDefinition = "jsonb")
     private String attributes;
 
     public JpaKnowledgeEntity() {

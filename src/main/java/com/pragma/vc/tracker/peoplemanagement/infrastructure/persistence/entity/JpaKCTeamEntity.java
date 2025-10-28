@@ -1,40 +1,37 @@
-package com.pragma.vc.tracker.knowledgecatalog.infrastructure.persistence.entity;
+package com.pragma.vc.tracker.peoplemanagement.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 
+/**
+ * JPA Entity for KC-Team persistence
+ * This is in the infrastructure layer and contains framework-specific annotations
+ */
 @Entity
-@Table(name = "\"Knowledge_Level\"")
-public class JpaLevelEntity {
+@Table(name = "\"KC-Team\"")
+public class JpaKCTeamEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "\"name\"", nullable = false, length = 255)
+    @Column(name = "\"name\"", nullable = false, unique = true, length = 255)
     private String name;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "\"attributes\"", columnDefinition = "jsonb")
-    private String attributes;
-
-    @Column(name = "\"created_at\"", nullable = false, updatable = false)
+    @Column(name = "\"created_at\"", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "\"updated_at\"")
     private LocalDateTime updatedAt;
 
-    public JpaLevelEntity() {
+    // Default constructor for JPA
+    public JpaKCTeamEntity() {
     }
 
-    public JpaLevelEntity(Long id, String name, String attributes,
-                         LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public JpaKCTeamEntity(Long id, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
-        this.attributes = attributes;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -49,6 +46,7 @@ public class JpaLevelEntity {
         updatedAt = LocalDateTime.now();
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -63,14 +61,6 @@ public class JpaLevelEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(String attributes) {
-        this.attributes = attributes;
     }
 
     public LocalDateTime getCreatedAt() {

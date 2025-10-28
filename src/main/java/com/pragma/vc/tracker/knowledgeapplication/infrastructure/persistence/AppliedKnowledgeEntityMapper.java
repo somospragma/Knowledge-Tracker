@@ -27,7 +27,7 @@ public class AppliedKnowledgeEntityMapper {
             entity.setKnowledgeLevel(appliedKnowledge.getLevelId().getValue());
         }
 
-        entity.setStartDate(appliedKnowledge.getStartDate());
+        entity.setOnboardDate(appliedKnowledge.getStartDate());
 
         return entity;
     }
@@ -45,7 +45,7 @@ public class AppliedKnowledgeEntityMapper {
                 PragmaticId.of(entity.getPragmaticId()),
                 knowledgeId,
                 levelId,
-                entity.getStartDate()
+                entity.getOnboardDate()
         );
 
         return appliedKnowledge;
