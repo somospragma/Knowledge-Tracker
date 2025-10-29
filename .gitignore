@@ -250,3 +250,9 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+### Environment Variables ###
+# Exclude local environment files containing sensitive data
+.env
+.env.local
+.env.*.local
+

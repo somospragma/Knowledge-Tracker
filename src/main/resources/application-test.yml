@@ -4,14 +4,14 @@
 spring:
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/knowledge_tracker_test
+    url: jdbc:postgresql://${TEST_DB_HOST:localhost}:${TEST_DB_PORT:5432}/${TEST_DB_NAME:knowledge_tracker_test}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: postgres
+    username: ${TEST_DB_USERNAME:postgres}
+    password: ${TEST_DB_PASSWORD:postgres}
     hikari:
-      maximum-pool-size: 5
-      minimum-idle: 2
-      connection-timeout: 30000
+      maximum-pool-size: ${TEST_DB_POOL_SIZE:5}
+      minimum-idle: ${TEST_DB_MIN_IDLE:2}
+      connection-timeout: ${TEST_DB_CONNECTION_TIMEOUT:30000}
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -47,6 +47,6 @@ logging:
 
 # Server Configuration
 server:
-  port: 8081  # Different port to avoid conflicts
+  port: ${TEST_SERVER_PORT:8081}  # Different port to avoid conflicts
   error:
     include-stacktrace: on_param
