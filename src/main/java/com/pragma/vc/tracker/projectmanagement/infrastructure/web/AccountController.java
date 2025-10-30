@@ -38,14 +38,14 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<List<AccountDTO>> getAllAccounts(
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) String region) {
+            @RequestParam(required = false) String territory) {
 
         List<AccountDTO> accounts;
 
         if (status != null && !status.isBlank()) {
             accounts = accountService.getAccountsByStatus(status);
-        } else if (region != null && !region.isBlank()) {
-            accounts = accountService.getAccountsByRegion(region);
+        } else if (territory != null && !territory.isBlank()) {
+            accounts = accountService.getAccountsByTerritory(territory);
         } else {
             accounts = accountService.getAllAccounts();
         }

@@ -7,16 +7,16 @@ import java.util.Map;
  */
 public class CreateAccountCommand {
     private String name;
-    private String region;
+    private String territory;
     private String status;
     private Map<String, String> attributes;
 
     public CreateAccountCommand() {
     }
 
-    public CreateAccountCommand(String name, String region, String status, Map<String, String> attributes) {
+    public CreateAccountCommand(String name, String territory, String status, Map<String, String> attributes) {
         this.name = name;
-        this.region = region;
+        this.territory = territory;
         this.status = status;
         this.attributes = attributes;
     }
@@ -29,12 +29,12 @@ public class CreateAccountCommand {
         this.name = name;
     }
 
-    public String getRegion() {
-        return region;
+    public String getTerritory() {
+        return territory;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setTerritory(String territory) {
+        this.territory = territory;
     }
 
     public String getStatus() {

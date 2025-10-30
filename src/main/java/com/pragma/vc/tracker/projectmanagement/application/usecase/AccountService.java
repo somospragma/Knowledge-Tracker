@@ -38,7 +38,7 @@ public class AccountService {
         AccountStatus status = AccountMapper.parseStatus(command.getStatus());
         Account account = Account.create(
             command.getName(),
-            command.getRegion(),
+            command.getTerritory(),
             status,
             command.getAttributes()
         );
@@ -80,8 +80,8 @@ public class AccountService {
     /**
      * Get Accounts by region
      */
-    public List<AccountDTO> getAccountsByRegion(String region) {
-        return accountRepository.findByRegion(region).stream()
+    public List<AccountDTO> getAccountsByTerritory(String territory) {
+        return accountRepository.findByTerritory(territory).stream()
             .map(AccountMapper::toDTO)
             .collect(Collectors.toList());
     }

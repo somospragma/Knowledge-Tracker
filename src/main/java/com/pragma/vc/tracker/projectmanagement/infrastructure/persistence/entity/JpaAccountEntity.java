@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * This is in the infrastructure layer and contains framework-specific annotations
  */
 @Entity
-@Table(name = "\"Account\"")
+@Table(name = "\"account\"")
 public class JpaAccountEntity {
 
     @Id
@@ -18,8 +18,8 @@ public class JpaAccountEntity {
     @Column(name = "\"id\"")
     private Long id;
 
-    @Column(name = "\"region_id\"", nullable = false)
-    private Long regionId;
+    @Column(name = "\"territory_id\"", nullable = false)
+    private Long territoryId;
 
     @Column(name = "\"name\"", nullable = false, length = 255)
     private String name;
@@ -41,10 +41,10 @@ public class JpaAccountEntity {
     public JpaAccountEntity() {
     }
 
-    public JpaAccountEntity(Long id, Long regionId, String name, String status, String attributes,
+    public JpaAccountEntity(Long id, Long territoryId, String name, String status, String attributes,
                            LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.regionId = regionId;
+        this.territoryId = territoryId;
         this.name = name;
         this.status = status;
         this.attributes = attributes;
@@ -71,12 +71,12 @@ public class JpaAccountEntity {
         this.id = id;
     }
 
-    public Long getRegionId() {
-        return regionId;
+    public Long getTerritoryId() {
+        return territoryId;
     }
 
-    public void setRegionId(Long regionId) {
-        this.regionId = regionId;
+    public void setTerritoryId(Long territoryId) {
+        this.territoryId = territoryId;
     }
 
     public String getName() {

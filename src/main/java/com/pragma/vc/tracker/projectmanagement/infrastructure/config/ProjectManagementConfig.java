@@ -2,10 +2,10 @@ package com.pragma.vc.tracker.projectmanagement.infrastructure.config;
 
 import com.pragma.vc.tracker.projectmanagement.application.usecase.AccountService;
 import com.pragma.vc.tracker.projectmanagement.application.usecase.ProjectService;
-import com.pragma.vc.tracker.projectmanagement.application.usecase.RegionService;
+import com.pragma.vc.tracker.projectmanagement.application.usecase.TerritoryService;
 import com.pragma.vc.tracker.projectmanagement.domain.repository.AccountRepository;
 import com.pragma.vc.tracker.projectmanagement.domain.repository.ProjectRepository;
-import com.pragma.vc.tracker.projectmanagement.domain.repository.RegionRepository;
+import com.pragma.vc.tracker.projectmanagement.domain.repository.TerritoryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,7 +27,7 @@ public class ProjectManagementConfig {
     }
 
     @Bean
-    public RegionService regionService(RegionRepository regionRepository) {
-        return new RegionService(regionRepository);
+    public TerritoryService territoryService(TerritoryRepository territoryRepository) {
+        return new TerritoryService(territoryRepository);
     }
 }

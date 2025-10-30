@@ -16,7 +16,7 @@ public class AccountMapper {
         return new AccountDTO(
             account.getId() != null ? account.getId().getValue() : null,
             account.getName(),
-            account.getRegion(),
+            account.getTerritory(),
             account.getStatus().name(),
             account.getAttributes()
         );

@@ -40,9 +40,9 @@ public interface AccountRepository {
     List<Account> findByStatus(AccountStatus status);
 
     /**
-     * Find Accounts by region
+     * Find Accounts by territory
      */
-    List<Account> findByRegion(String region);
+    List<Account> findByTerritory(String territory);
 
     /**
      * Check if an Account exists with the given name

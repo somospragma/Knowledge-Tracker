@@ -17,18 +17,18 @@ class AccountTest {
     void shouldCreateAccountWithValidData() {
         // Given
         String name = "Bancolombia";
-        String region = "Latin America";
+        String territory = "Latin America";
         AccountStatus status = AccountStatus.ACTIVE;
         Map<String, String> attributes = new HashMap<>();
         attributes.put("industry", "Banking");
 
         // When
-        Account account = Account.create(name, region, status, attributes);
+        Account account = Account.create(name, territory, status, attributes);
 
         // Then
         assertNotNull(account);
         assertEquals(name, account.getName());
-        assertEquals(region, account.getRegion());
+        assertEquals(territory, account.getTerritory());
         assertEquals(status, account.getStatus());
         assertEquals("Banking", account.getAttribute("industry"));
     }
@@ -40,7 +40,7 @@ class AccountTest {
 
         // When & Then
         assertThrows(IllegalArgumentException.class, () ->
-            Account.create(name, "Region", AccountStatus.ACTIVE, null)
+            Account.create(name, "Territory", AccountStatus.ACTIVE, null)
         );
     }
 
@@ -51,7 +51,7 @@ class AccountTest {
 
         // When & Then
         assertThrows(IllegalArgumentException.class, () ->
-            Account.create(name, "Region", AccountStatus.ACTIVE, null)
+            Account.create(name, "Territory", AccountStatus.ACTIVE, null)
         );
     }
 
@@ -62,14 +62,14 @@ class AccountTest {
 
         // When & Then
         assertThrows(IllegalArgumentException.class, () ->
-            Account.create(name, "Region", AccountStatus.ACTIVE, null)
+            Account.create(name, "Territory", AccountStatus.ACTIVE, null)
         );
     }
 
     @Test
     void shouldActivateInactiveAccount() {
         // Given
-        Account account = Account.create("Test Account", "Region", AccountStatus.INACTIVE, null);
+        Account account = Account.create("Test Account", "Territory", AccountStatus.INACTIVE, null);
 
         // When
         account.activate();
@@ -82,7 +82,7 @@ class AccountTest {
     @Test
     void shouldThrowExceptionWhenActivatingAlreadyActiveAccount() {
         // Given
-        Account account = Account.create("Test Account", "Region", AccountStatus.ACTIVE, null);
+        Account account = Account.create("Test Account", "Territory", AccountStatus.ACTIVE, null);
 
         // When & Then
         assertThrows(IllegalStateException.class, account::activate);
@@ -91,7 +91,7 @@ class AccountTest {
     @Test
     void shouldDeactivateActiveAccount() {
         // Given
-        Account account = Account.create("Test Account", "Region", AccountStatus.ACTIVE, null);
+        Account account = Account.create("Test Account", "Territory", AccountStatus.ACTIVE, null);
 
         // When
         account.deactivate();
@@ -104,7 +104,7 @@ class AccountTest {
     @Test
     void shouldUpdateAccountName() {
         // Given
-        Account account = Account.create("Old Name", "Region", AccountStatus.ACTIVE, null);
+        Account account = Account.create("Old Name", "Territory", AccountStatus.ACTIVE, null);
         String newName = "New Name";
 
         // When
@@ -117,7 +117,7 @@ class AccountTest {
     @Test
     void shouldAddAndRemoveAttributes() {
         // Given
-        Account account = Account.create("Test Account", "Region", AccountStatus.ACTIVE, null);
+        Account account = Account.create("Test Account", "Territory", AccountStatus.ACTIVE, null);
 
         // When
         account.addAttribute("key1", "value1");
@@ -138,7 +138,7 @@ class AccountTest {
     @Test
     void shouldDefaultToActiveStatusWhenNotSpecified() {
         // When
-        Account account = Account.create("Test Account", "Region", null, null);
+        Account account = Account.create("Test Account", "Territory", null, null);
 
         // Then
         assertEquals(AccountStatus.ACTIVE, account.getStatus());
@@ -147,7 +147,7 @@ class AccountTest {
     @Test
     void shouldPreventIdChangeOnceSet() {
         // Given
-        Account account = Account.create("Test Account", "Region", AccountStatus.ACTIVE, null);
+        Account account = Account.create("Test Account", "Territory", AccountStatus.ACTIVE, null);
         AccountId id1 = AccountId.of(1L);
         AccountId id2 = AccountId.of(2L);
 

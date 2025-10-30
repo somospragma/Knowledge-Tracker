@@ -16,7 +16,7 @@ INSERT INTO "chapter" ("id", "name") VALUES
 -- =====================================================
 -- Accounts (Client Organizations)
 -- =====================================================
-INSERT INTO "account" ("id", "name", "region", "status", "attributes") VALUES
+INSERT INTO "account" ("id", "name", "territory", "status", "attributes") VALUES
 (1, 'Bancolombia', 'Latin America', 'Active', '{"industry": "Banking", "size": "Enterprise"}'),
 (2, 'Rappi', 'Latin America', 'Active', '{"industry": "E-commerce", "size": "Large"}'),
 (3, 'Falabella', 'Latin America', 'Active', '{"industry": "Retail", "size": "Enterprise"}'),

@@ -10,24 +10,24 @@ import java.util.Objects;
  *
  * Domain rules:
  * - Account name must be unique and not blank
- * - Region is optional but if provided must not be blank
+ * - Territory is optional but if provided must not be blank
  * - Attributes store additional metadata as key-value pairs
  */
 public class Account {
     private AccountId id;
     private String name;
-    private String region;
+    private String territory;
     private AccountStatus status;
     private Map<String, String> attributes;
 
     // Private constructor to enforce factory method usage
-    private Account(AccountId id, String name, String region, AccountStatus status, Map<String, String> attributes) {
+    private Account(AccountId id, String name, String territory, AccountStatus status, Map<String, String> attributes) {
         validateName(name);
-        validateRegion(region);
+        validateTerritory(territory);
 
         this.id = id;
         this.name = name;
-        this.region = region;
+        this.territory = territory;
         this.status = status != null ? status : AccountStatus.ACTIVE;
         this.attributes = new HashMap<>(attributes != null ? attributes : new HashMap<>());
     }
@@ -35,15 +35,15 @@ public class Account {
     /**
      * Factory method to create a new Account
      */
-    public static Account create(String name, String region, AccountStatus status, Map<String, String> attributes) {
-        return new Account(null, name, region, status, attributes);
+    public static Account create(String name, String territory, AccountStatus status, Map<String, String> attributes) {
+        return new Account(null, name, territory, status, attributes);
     }
 
     /**
      * Factory method to reconstitute an Account from persistence
      */
-    public static Account reconstitute(AccountId id, String name, String region, AccountStatus status, Map<String, String> attributes) {
-        return new Account(id, name, region, status, attributes);
+    public static Account reconstitute(AccountId id, String name, String territory, AccountStatus status, Map<String, String> attributes) {
+        return new Account(id, name, territory, status, attributes);
     }
 
     // Business methods
@@ -53,9 +53,9 @@ public class Account {
         this.name = newName;
     }
 
-    public void updateRegion(String newRegion) {
-        validateRegion(newRegion);
-        this.region = newRegion;
+    public void updateTerritory(String newTerritory) {
+        validateTerritory(newTerritory);
+        this.territory = newTerritory;
     }
 
     public void activate() {
@@ -105,12 +105,12 @@ public class Account {
         }
     }
 
-    private void validateRegion(String region) {
-        if (region != null && region.isBlank()) {
-            throw new IllegalArgumentException("Region cannot be blank if provided");
+    private void validateTerritory(String territory) {
+        if (territory != null && territory.isBlank()) {
+            throw new IllegalArgumentException("Territory cannot be blank if provided");
         }
-        if (region != null && region.length() > 255) {
-            throw new IllegalArgumentException("Region cannot exceed 255 characters");
+        if (territory != null && territory.length() > 255) {
+            throw new IllegalArgumentException("Territory cannot exceed 255 characters");
         }
     }
 
@@ -124,8 +124,8 @@ public class Account {
         return name;
     }
 
-    public String getRegion() {
-        return region;
+    public String getTerritory() {
+        return territory;
     }
 
     public AccountStatus getStatus() {
@@ -166,7 +166,7 @@ public class Account {
         return "Account{" +
                "id=" + id +
                ", name='" + name + '\'' +
-               ", region='" + region + '\'' +
+               ", territory='" + territory + '\'' +
                ", status=" + status +
                '}';
     }

@@ -1,16 +1,16 @@
 package com.pragma.vc.tracker.projectmanagement.application.dto;
 
 /**
- * Data Transfer Object for Region
+ * Data Transfer Object for Territory
  */
-public class RegionDTO {
+public class TerritoryDTO {
     private Long id;
     private String name;
 
-    public RegionDTO() {
+    public TerritoryDTO() {
     }
 
-    public RegionDTO(Long id, String name) {
+    public TerritoryDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }

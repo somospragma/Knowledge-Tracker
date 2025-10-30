@@ -60,13 +60,13 @@ public class JpaAccountRepositoryAdapter implements AccountRepository {
     }
 
     @Override
-    public List<Account> findByRegion(String region) {
+    public List<Account> findByTerritory(String territory) {
         // TODO: This is a temporary workaround. Region is now stored as ID (Long).
         // For now, we try to parse the region string as a Long.
-        // A better solution would be to update the domain interface to accept regionId.
+        // A better solution would be to update the domain interface to accept TerritoryId.
         try {
-            Long regionId = Long.parseLong(region);
-            return jpaRepository.findByRegionId(regionId).stream()
+            Long territoryId = Long.parseLong(territory);
+            return jpaRepository.findByTerritoryId(territoryId).stream()
                 .map(AccountEntityMapper::toDomain)
                 .collect(Collectors.toList());
         } catch (NumberFormatException e) {

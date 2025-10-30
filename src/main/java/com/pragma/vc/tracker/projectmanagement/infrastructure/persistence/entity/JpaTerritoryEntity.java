@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * JPA Entity for Region persistence
+ * JPA Entity for Territory persistence
  * This is in the infrastructure layer and contains framework-specific annotations
  */
 @Entity
-@Table(name = "\"Region\"")
-public class JpaRegionEntity {
+@Table(name = "\"territory\"")
+public class JpaTerritoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +26,10 @@ public class JpaRegionEntity {
     private LocalDateTime updatedAt;
 
     // Default constructor for JPA
-    public JpaRegionEntity() {
+    public JpaTerritoryEntity() {
     }
 
-    public JpaRegionEntity(Long id, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public JpaTerritoryEntity(Long id, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;

@@ -1,15 +1,15 @@
 package com.pragma.vc.tracker.projectmanagement.application.dto;
 
 /**
- * Command for creating a new Region
+ * Command for creating a new Territory
  */
-public class CreateRegionCommand {
+public class CreateTerritoryCommand {
     private String name;
 
-    public CreateRegionCommand() {
+    public CreateTerritoryCommand() {
     }
 
-    public CreateRegionCommand(String name) {
+    public CreateTerritoryCommand(String name) {
         this.name = name;
     }
 

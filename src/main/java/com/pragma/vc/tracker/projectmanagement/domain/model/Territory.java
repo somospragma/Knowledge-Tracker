@@ -3,36 +3,36 @@ package com.pragma.vc.tracker.projectmanagement.domain.model;
 import java.util.Objects;
 
 /**
- * Region Entity - Aggregate Root
- * Represents a geographical region where accounts operate
+ * Territory Entity - Aggregate Root
+ * Represents a geographical territory where accounts operate
  *
  * Domain rules:
- * - Region name must be unique and not blank
- * - Region name cannot exceed 255 characters
+ * - Territory name must be unique and not blank
+ * - Territory name cannot exceed 255 characters
  */
-public class Region {
-    private RegionId id;
+public class Territory {
+    private TerritoryId id;
     private String name;
 
     // Private constructor to enforce factory method usage
-    private Region(RegionId id, String name) {
+    private Territory(TerritoryId id, String name) {
         validateName(name);
         this.id = id;
         this.name = name;
     }
 
     /**
-     * Factory method to create a new Region
+     * Factory method to create a new Territory
      */
-    public static Region create(String name) {
-        return new Region(null, name);
+    public static Territory create(String name) {
+        return new Territory(null, name);
     }
 
     /**
-     * Factory method to reconstitute a Region from persistence
+     * Factory method to reconstitute a Territory from persistence
      */
-    public static Region reconstitute(RegionId id, String name) {
-        return new Region(id, name);
+    public static Territory reconstitute(TerritoryId id, String name) {
+        return new Territory(id, name);
     }
 
     // Business methods
@@ -46,16 +46,16 @@ public class Region {
 
     private void validateName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Region name cannot be null or blank");
+            throw new IllegalArgumentException("Territory name cannot be null or blank");
         }
         if (name.length() > 255) {
-            throw new IllegalArgumentException("Region name cannot exceed 255 characters");
+            throw new IllegalArgumentException("Territory name cannot exceed 255 characters");
         }
     }
 
     // Getters
 
-    public RegionId getId() {
+    public TerritoryId getId() {
         return id;
     }
 
@@ -64,9 +64,9 @@ public class Region {
     }
 
     // For infrastructure layer to set ID after persistence
-    public void setId(RegionId id) {
+    public void setId(TerritoryId id) {
         if (this.id != null) {
-            throw new IllegalStateException("Cannot change Region ID once set");
+            throw new IllegalStateException("Cannot change Territory ID once set");
         }
         this.id = id;
     }
@@ -75,8 +75,8 @@ public class Region {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Region region = (Region) o;
-        return Objects.equals(id, region.id);
+        Territory territory = (Territory) o;
+        return Objects.equals(id, territory.id);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Region {
 
     @Override
     public String toString() {
-        return "Region{" +
+        return "Territory{" +
                "id=" + id +
                ", name='" + name + '\'' +
                '}';

@@ -28,7 +28,7 @@ public class AccountEntityMapper {
         }
         // TODO: For now, we'll use a default regionId of 1 (Colombia)
         // This should be properly mapped from domain model when Region entity is fully integrated
-        entity.setRegionId(1L);
+        entity.setTerritoryId(1L);
         entity.setName(account.getName());
         entity.setStatus(account.getStatus().name());
         entity.setAttributes(serializeAttributes(account.getAttributes()));
@@ -45,7 +45,7 @@ public class AccountEntityMapper {
 
         // For now, we'll use regionId as a string for the region field
         // This maintains backward compatibility until Region is fully integrated
-        String region = entity.getRegionId() != null ? entity.getRegionId().toString() : null;
+        String region = entity.getTerritoryId() != null ? entity.getTerritoryId().toString() : null;
 
         return Account.reconstitute(id, entity.getName(), region, status, attributes);
     }
