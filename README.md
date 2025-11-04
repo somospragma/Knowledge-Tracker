@@ -121,12 +121,35 @@ Domain Layer (Pure Java)
 
 ---
 
+## Quick Start
+
+Get up and running in 3 steps:
+
+```bash
+# 1. Clone and navigate to the project
+git clone <repository-url>
+cd Knowledge-Tracker
+
+# 2. Start PostgreSQL with Docker
+chmod +x start-dev.sh
+./start-dev.sh
+
+# 3. Run the application
+./gradlew bootRun --args='--spring.profiles.active=dev'
+```
+
+The application will be available at http://localhost:8080
+
+---
+
 ## Build & Run
 
 ### Prerequisites
 - Java 21 or higher
-- PostgreSQL 16 (for dev/test/prod profiles)
+- Docker and Docker Compose (recommended for local development)
 - Git
+
+**Note:** PostgreSQL 16 is required but can be easily started using Docker (see Environment Setup below). Manual PostgreSQL installation is optional.
 
 ### Environment Setup
 
@@ -141,16 +164,80 @@ Domain Layer (Pure Java)
    # Copy the example environment file
    cp .env.example .env
 
-   # Edit .env with your configuration
+   # Edit .env with your configuration (optional - defaults work for local development)
    nano .env
    ```
 
-3. **Create databases** (if using PostgreSQL)
+3. **Start PostgreSQL with Docker (Recommended)**
+
+   The easiest way to get started is using Docker Compose with the provided `start-dev.sh` script:
+
+   ```bash
+   # Make the script executable (first time only)
+   chmod +x start-dev.sh
+
+   # Start PostgreSQL only
+   ./start-dev.sh
+
+   # Start PostgreSQL with pgAdmin (database management UI)
+   ./start-dev.sh --with-pgadmin
+
+   # Rebuild containers before starting
+   ./start-dev.sh --rebuild
+
+   # View help
+   ./start-dev.sh --help
+   ```
+
+   **What the script does:**
+   - Checks if Docker is running
+   - Creates `.env` file from `.env.example` if not present
+   - Starts PostgreSQL 16 in a Docker container
+   - Waits for PostgreSQL to be ready and healthy
+   - Optionally starts pgAdmin for database management
+   - Displays connection details
+
+   **PostgreSQL Connection Details** (default values):
+   - Host: `localhost`
+   - Port: `5432`
+   - Database: `knowledge_tracker_dev`
+   - Username: `pragma_dev`
+   - Password: `pragma_dev_password`
+
+   **pgAdmin Access** (when using `--with-pgadmin`):
+   - URL: http://localhost:5050
+   - Email: `admin@pragma.com`
+   - Password: `admin`
+
+   **Useful Docker Commands:**
+   ```bash
+   # Stop containers
+   docker-compose down
+
+   # View PostgreSQL logs
+   docker-compose logs -f postgres
+
+   # View all container logs
+   docker-compose logs -f
+
+   # Stop and remove volumes (WARNING: deletes all data)
+   docker-compose down -v
+
+   # Connect to PostgreSQL directly
+   docker exec -it knowledge-tracker-postgres-dev psql -U pragma_dev -d knowledge_tracker_dev
+   ```
+
+4. **Alternative: Manual PostgreSQL Setup**
+
+   If you prefer to install PostgreSQL manually instead of using Docker:
+
    ```sql
    CREATE DATABASE knowledge_tracker_dev;
    CREATE DATABASE knowledge_tracker_test;
    CREATE DATABASE knowledge_tracker;  -- production
    ```
+
+   Then update your `.env` file with your PostgreSQL credentials.
 
 ### Build Commands
 
