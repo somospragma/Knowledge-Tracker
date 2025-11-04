@@ -18,26 +18,26 @@ INSERT INTO "territory" (id, name, created_at, updated_at) VALUES
 -- kc-team (knowledge Center Teams)
 -- =====================================================
 INSERT INTO "kc-team" (id, name, created_at, updated_at) VALUES
-(1, 'Architecture & Backend', CURRENT_TIMESTAMP, NULL),
-(2, 'Frontend & UX', CURRENT_TIMESTAMP, NULL),
-(3, 'Cloud & DevOps', CURRENT_TIMESTAMP, NULL),
-(4, 'Data & Analytics', CURRENT_TIMESTAMP, NULL),
-(5, 'Mobile Development', CURRENT_TIMESTAMP, NULL),
-(6, 'Quality & Testing', CURRENT_TIMESTAMP, NULL);
+(1, 'KC Ciencias de la Computación', CURRENT_TIMESTAMP, NULL),
+(2, 'KC People-Centered Design', CURRENT_TIMESTAMP, NULL),
+(3, 'KC Powerful Teams', CURRENT_TIMESTAMP, NULL),
+(4, 'KC Business Development', CURRENT_TIMESTAMP, NULL),
+(5, 'KC Data Science', CURRENT_TIMESTAMP, NULL),
+(6, 'Unasigned KC', CURRENT_TIMESTAMP, NULL);
 
 -- =====================================================
 -- chapter (Organizational Units within kc-teams)
 -- =====================================================
 INSERT INTO "chapter" (id, kc_id, name, status, created_at, updated_at) VALUES
 -- Architecture & Backend kc-team
-(1, 1, 'Java Backend', 'Active', CURRENT_TIMESTAMP, NULL),
-(2, 1, 'Python Backend', 'Active', CURRENT_TIMESTAMP, NULL),
-(3, 1, 'NodeJS Backend', 'Active', CURRENT_TIMESTAMP, NULL),
+(1, 1, 'Architecture', 'Active', CURRENT_TIMESTAMP, NULL),
+(2, 1, 'Backend', 'Active', CURRENT_TIMESTAMP, NULL),
+(3, 1, 'Frontend', 'Active', CURRENT_TIMESTAMP, NULL),
 
 -- Frontend & UX kc-team
-(4, 2, 'React Development', 'Active', CURRENT_TIMESTAMP, NULL),
-(5, 2, 'Angular Development', 'Active', CURRENT_TIMESTAMP, NULL),
-(6, 2, 'Vue.js Development', 'Active', CURRENT_TIMESTAMP, NULL),
+(4, 2, 'UX', 'Active', CURRENT_TIMESTAMP, NULL),
+(5, 2, 'Business Consulting', 'Active', CURRENT_TIMESTAMP, NULL),
+(6, 2, 'Research', 'Active', CURRENT_TIMESTAMP, NULL),
 
 -- Cloud & DevOps kc-team
 (7, 3, 'AWS Infrastructure', 'Active', CURRENT_TIMESTAMP, NULL),
