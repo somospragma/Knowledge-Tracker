@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: knowledge-tracker-postgres-dev
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-knowledge_tracker_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-pragma_dev}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pragma_dev_password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/main/resources/sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pragma_dev} -d ${POSTGRES_DB:-knowledge_tracker_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - knowledge-tracker-network
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: knowledge-tracker-pgadmin-dev
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@pragma.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - knowledge-tracker-network
+    profiles:
+      - with-pgadmin
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  knowledge-tracker-network:
+    driver: bridge

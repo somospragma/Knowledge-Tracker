@@ -256,3 +256,8 @@ gradle-app.setting
 .env.local
 .env.*.local
 
+### Docker ###
+# Docker volumes and data
+docker-compose.override.yml
+.docker/
+

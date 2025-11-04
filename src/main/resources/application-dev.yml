@@ -2,12 +2,12 @@
 # Uses PostgreSQL for integration testing
 
 spring:
-  # PostgreSQL Database Configuration
+  # PostgreSQL Database Configuration (Docker Compose)
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:knowledge_tracker_dev}
     driver-class-name: org.postgresql.Driver
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    username: ${DB_USERNAME:pragma_dev}
+    password: ${DB_PASSWORD:pragma_dev_password}
     hikari:
       maximum-pool-size: ${DB_POOL_SIZE:5}
       minimum-idle: ${DB_MIN_IDLE:2}
