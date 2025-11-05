@@ -1,0 +1,27 @@
+# Logstash Pipelines Configuration
+# Define multiple pipelines to sync different entities from PostgreSQL to Elasticsearch
+
+# Account Pipeline - Sync client accounts
+- pipeline.id: accounts-sync
+  path.config: "/usr/share/logstash/pipeline/accounts-pipeline.conf"
+  pipeline.workers: 1
+
+# Project Pipeline - Sync client projects
+- pipeline.id: projects-sync
+  path.config: "/usr/share/logstash/pipeline/projects-pipeline.conf"
+  pipeline.workers: 1
+
+# Pragmatic Pipeline - Sync Pragma employees
+- pipeline.id: pragmatics-sync
+  path.config: "/usr/share/logstash/pipeline/pragmatics-pipeline.conf"
+  pipeline.workers: 1
+
+# Knowledge Pipeline - Sync knowledge catalog
+- pipeline.id: knowledge-sync
+  path.config: "/usr/share/logstash/pipeline/knowledge-pipeline.conf"
+  pipeline.workers: 1
+
+# Applied Knowledge Pipeline - Sync knowledge applications (core entity)
+- pipeline.id: applied-knowledge-sync
+  path.config: "/usr/share/logstash/pipeline/applied-knowledge-pipeline.conf"
+  pipeline.workers: 1

@@ -1,0 +1,25 @@
+# Logstash Configuration for Knowledge Tracker
+# This file configures the Logstash instance that syncs data from PostgreSQL to Elasticsearch
+
+# HTTP API Settings
+http.host: "0.0.0.0"
+http.port: 9600
+
+# Pipeline Settings
+pipeline.workers: 2
+pipeline.batch.size: 125
+pipeline.batch.delay: 50
+
+# Queue Settings
+queue.type: memory
+queue.max_bytes: 1gb
+
+# Log Settings
+log.level: info
+path.logs: /usr/share/logstash/logs
+
+# Monitoring
+monitoring.enabled: false
+
+# X-Pack Settings (disabled for development)
+xpack.monitoring.enabled: false

@@ -33,7 +33,15 @@ spring:
       data-locations: classpath:sql/data-dev.sql
       continue-on-error: false
 
-# Test Logging
+  # Elasticsearch Configuration (Docker Compose)
+  elasticsearch:
+    uris: http://${ES_HOST:localhost}:${ES_PORT_APP:9200}
+    username: ${ES_USERNAME:elastic}
+    password: ${ES_PASSWORD_APP:elasticsearch}
+    connection-timeout: 30s
+    socket-timeout: 30s
+
+# Development Logging
 logging:
   level:
     root: INFO
