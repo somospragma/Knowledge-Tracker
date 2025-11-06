@@ -22,7 +22,7 @@ public class PragmaticEntityMapper {
         entity.setEmail(pragmatic.getEmail().getValue());
         entity.setFirstName(pragmatic.getFirstName());
         entity.setLastName(pragmatic.getLastName());
-        entity.setStatus(pragmatic.getStatus().name());
+        entity.setStatus(pragmatic.getStatus().getDisplayName());
         return entity;
     }
 
@@ -33,7 +33,7 @@ public class PragmaticEntityMapper {
         PragmaticId id = entity.getId() != null ? PragmaticId.of(entity.getId()) : null;
         ChapterId chapterId = entity.getChapterId() != null ? ChapterId.of(entity.getChapterId()) : null;
         Email email = Email.of(entity.getEmail());
-        PragmaticStatus status = PragmaticStatus.valueOf(entity.getStatus());
+        PragmaticStatus status = parsePragmaticStatus(entity.getStatus());
 
         return Pragmatic.reconstitute(
             id,
@@ -43,5 +43,25 @@ public class PragmaticEntityMapper {
             entity.getLastName(),
             status
         );
+    }
+
+    private static PragmaticStatus parsePragmaticStatus(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("PragmaticStatus cannot be null");
+        }
+        // Remove spaces and compare case-insensitively
+        String normalizedValue = value.replaceAll("\\s+", "");
+        for (PragmaticStatus status : PragmaticStatus.values()) {
+            String normalizedEnumName = status.name().replaceAll("_", "");
+            String normalizedDisplayName = status.getDisplayName().replaceAll("\\s+", "");
+
+            if (status.name().equalsIgnoreCase(value) ||
+                status.getDisplayName().equalsIgnoreCase(value) ||
+                normalizedEnumName.equalsIgnoreCase(normalizedValue) ||
+                normalizedDisplayName.equalsIgnoreCase(normalizedValue)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Unknown PragmaticStatus: " + value);
     }
 }

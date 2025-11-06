@@ -30,7 +30,7 @@ public class AccountEntityMapper {
         // This should be properly mapped from domain model when Region entity is fully integrated
         entity.setTerritoryId(1L);
         entity.setName(account.getName());
-        entity.setStatus(account.getStatus().name());
+        entity.setStatus(account.getStatus().getDisplayName());
         entity.setAttributes(serializeAttributes(account.getAttributes()));
         return entity;
     }
@@ -40,7 +40,7 @@ public class AccountEntityMapper {
             return null;
         }
         AccountId id = entity.getId() != null ? AccountId.of(entity.getId()) : null;
-        AccountStatus status = AccountStatus.valueOf(entity.getStatus());
+        AccountStatus status = parseAccountStatus(entity.getStatus());
         Map<String, String> attributes = deserializeAttributes(entity.getAttributes());
 
         // For now, we'll use regionId as a string for the region field
@@ -48,6 +48,18 @@ public class AccountEntityMapper {
         String region = entity.getTerritoryId() != null ? entity.getTerritoryId().toString() : null;
 
         return Account.reconstitute(id, entity.getName(), region, status, attributes);
+    }
+
+    private static AccountStatus parseAccountStatus(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("AccountStatus cannot be null");
+        }
+        for (AccountStatus status : AccountStatus.values()) {
+            if (status.name().equalsIgnoreCase(value) || status.getDisplayName().equalsIgnoreCase(value)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Unknown AccountStatus: " + value);
     }
 
     private static String serializeAttributes(Map<String, String> attributes) {

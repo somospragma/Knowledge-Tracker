@@ -26,12 +26,12 @@ public class ProjectEntityMapper {
         }
         entity.setAccountId(project.getAccountId().getValue());
         entity.setName(project.getName());
-        entity.setStatus(project.getStatus().name());
+        entity.setStatus(project.getStatus().getDisplayName());
         if (project.getDateRange() != null) {
             entity.setStartDate(project.getDateRange().getStartDate());
             entity.setEndDate(project.getDateRange().getEndDate());
         }
-        entity.setType(project.getType().name());
+        entity.setType(project.getType().getDisplayName());
         entity.setAttributes(serializeAttributes(project.getAttributes()));
         return entity;
     }
@@ -42,8 +42,8 @@ public class ProjectEntityMapper {
         }
         ProjectId id = entity.getId() != null ? ProjectId.of(entity.getId()) : null;
         AccountId accountId = AccountId.of(entity.getAccountId());
-        ProjectStatus status = ProjectStatus.valueOf(entity.getStatus());
-        ProjectType type = ProjectType.valueOf(entity.getType());
+        ProjectStatus status = parseProjectStatus(entity.getStatus());
+        ProjectType type = parseProjectType(entity.getType());
         DateRange dateRange = null;
         if (entity.getStartDate() != null) {
             dateRange = DateRange.of(entity.getStartDate(), entity.getEndDate());
@@ -51,6 +51,30 @@ public class ProjectEntityMapper {
         Map<String, String> attributes = deserializeAttributes(entity.getAttributes());
 
         return Project.reconstitute(id, accountId, entity.getName(), status, dateRange, type, attributes);
+    }
+
+    private static ProjectStatus parseProjectStatus(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("ProjectStatus cannot be null");
+        }
+        for (ProjectStatus status : ProjectStatus.values()) {
+            if (status.name().equalsIgnoreCase(value) || status.getDisplayName().equalsIgnoreCase(value)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Unknown ProjectStatus: " + value);
+    }
+
+    private static ProjectType parseProjectType(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("ProjectType cannot be null");
+        }
+        for (ProjectType type : ProjectType.values()) {
+            if (type.name().equalsIgnoreCase(value) || type.getDisplayName().equalsIgnoreCase(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Unknown ProjectType: " + value);
     }
 
     private static String serializeAttributes(Map<String, String> attributes) {
