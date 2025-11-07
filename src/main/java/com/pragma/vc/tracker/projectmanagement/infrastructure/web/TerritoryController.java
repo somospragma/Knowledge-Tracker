@@ -1,4 +1,4 @@
-package com.pragma.vc.tracker.projectmanagement.infrastructure.adapter.web;
+package com.pragma.vc.tracker.projectmanagement.infrastructure.web;
 
 import com.pragma.vc.tracker.projectmanagement.application.dto.CreateTerritoryCommand;
 import com.pragma.vc.tracker.projectmanagement.application.dto.TerritoryDTO;
