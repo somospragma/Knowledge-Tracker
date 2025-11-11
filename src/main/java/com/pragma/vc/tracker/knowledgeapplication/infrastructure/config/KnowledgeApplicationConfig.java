@@ -6,6 +6,7 @@ import com.pragma.vc.tracker.knowledgecatalog.domain.repository.KnowledgeReposit
 import com.pragma.vc.tracker.knowledgecatalog.domain.repository.LevelRepository;
 import com.pragma.vc.tracker.peoplemanagement.domain.repository.PragmaticRepository;
 import com.pragma.vc.tracker.projectmanagement.domain.repository.ProjectRepository;
+import com.pragma.vc.tracker.shared.application.port.EventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,13 +19,15 @@ public class KnowledgeApplicationConfig {
             ProjectRepository projectRepository,
             PragmaticRepository pragmaticRepository,
             KnowledgeRepository knowledgeRepository,
-            LevelRepository levelRepository) {
+            LevelRepository levelRepository,
+            EventPublisher eventPublisher) {
         return new AppliedKnowledgeService(
                 appliedKnowledgeRepository,
                 projectRepository,
                 pragmaticRepository,
                 knowledgeRepository,
-                levelRepository
+                levelRepository,
+                eventPublisher
         );
     }
 }

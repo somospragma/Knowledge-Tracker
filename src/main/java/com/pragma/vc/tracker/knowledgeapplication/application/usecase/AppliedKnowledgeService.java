@@ -20,6 +20,8 @@ import com.pragma.vc.tracker.knowledgecatalog.domain.repository.KnowledgeReposit
 import com.pragma.vc.tracker.knowledgecatalog.domain.repository.LevelRepository;
 import com.pragma.vc.tracker.knowledgecatalog.domain.exception.KnowledgeNotFoundException;
 import com.pragma.vc.tracker.knowledgecatalog.domain.exception.LevelNotFoundException;
+import com.pragma.vc.tracker.knowledgeapplication.domain.event.AppliedKnowledgeCreatedEvent;
+import com.pragma.vc.tracker.shared.application.port.EventPublisher;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,19 +32,22 @@ public class AppliedKnowledgeService {
     private final PragmaticRepository pragmaticRepository;
     private final KnowledgeRepository knowledgeRepository;
     private final LevelRepository levelRepository;
+    private final EventPublisher eventPublisher;
 
     public AppliedKnowledgeService(
             AppliedKnowledgeRepository appliedKnowledgeRepository,
             ProjectRepository projectRepository,
             PragmaticRepository pragmaticRepository,
             KnowledgeRepository knowledgeRepository,
-            LevelRepository levelRepository
+            LevelRepository levelRepository,
+            EventPublisher eventPublisher
     ) {
         this.appliedKnowledgeRepository = appliedKnowledgeRepository;
         this.projectRepository = projectRepository;
         this.pragmaticRepository = pragmaticRepository;
         this.knowledgeRepository = knowledgeRepository;
         this.levelRepository = levelRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     public AppliedKnowledgeDTO createAppliedKnowledge(CreateAppliedKnowledgeCommand command) {
@@ -84,6 +89,17 @@ public class AppliedKnowledgeService {
         );
 
         AppliedKnowledge saved = appliedKnowledgeRepository.save(appliedKnowledge);
+
+        // Publish domain event asynchronously
+        AppliedKnowledgeCreatedEvent event = new AppliedKnowledgeCreatedEvent(
+                saved.getId().getValue(),
+                saved.getProjectId().getValue(),
+                saved.getPragmaticId().getValue(),
+                saved.getKnowledgeId() != null ? saved.getKnowledgeId().getValue() : null,
+                saved.getLevelId() != null ? saved.getLevelId().getValue() : null
+        );
+        eventPublisher.publish(event);
+
         return AppliedKnowledgeMapper.toDTO(saved);
     }
 
