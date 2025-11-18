@@ -9,6 +9,7 @@
 -- - People Management (Organization structure: Territory, KC-Team, Chapter, Pragmatic)
 -- - Knowledge Catalog (Category, Knowledge, Level)
 -- - Knowledge Application (Applied Knowledge - Core Domain)
+-- - User Management (User authentication and authorization)
 -- ============================================
 
 -- Drop existing tables if needed (in correct dependency order)
@@ -22,6 +23,7 @@ DROP TABLE IF EXISTS "Knowledge_Level" CASCADE;
 DROP TABLE IF EXISTS "Chapter" CASCADE;
 DROP TABLE IF EXISTS "KC-Team" CASCADE;
 DROP TABLE IF EXISTS "territory" CASCADE;
+DROP TABLE IF EXISTS "User" CASCADE;
 
 -- ============================================
 -- BASE TABLES (No Foreign Key Dependencies)
@@ -72,6 +74,29 @@ CREATE TABLE "Knowledge_Level" (
 );
 
 COMMENT ON TABLE "Knowledge_Level" IS 'Proficiency levels for knowledge application (Beginner, Intermediate, Advanced, Expert)';
+
+-- User Table (User Management Module)
+CREATE TABLE "User" (
+    "id" UUID NOT NULL,
+    "email" VARCHAR(255) NOT NULL UNIQUE,
+    "first_name" VARCHAR(100) NOT NULL,
+    "last_name" VARCHAR(100) NOT NULL,
+    "system_role" VARCHAR(50) NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP,
+    PRIMARY KEY("id"),
+    CONSTRAINT "chk_user_email_format"
+        CHECK ("email" ~* '^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    CONSTRAINT "chk_user_system_role"
+        CHECK ("system_role" IN ('FULL_ADMINISTRATOR', 'KNOWLEDGE_MANAGER', 'PROJECT_ACCOUNT_MANAGER', 'PEOPLE_MANAGER', 'USER'))
+);
+
+COMMENT ON TABLE "User" IS 'System users with authentication and authorization information';
+COMMENT ON COLUMN "User"."id" IS 'Unique UUID identifier for the user';
+COMMENT ON COLUMN "User"."email" IS 'User email address - used for login (unique, indexed)';
+COMMENT ON COLUMN "User"."system_role" IS 'User role: FULL_ADMINISTRATOR, KNOWLEDGE_MANAGER, PROJECT_ACCOUNT_MANAGER, PEOPLE_MANAGER, USER';
+COMMENT ON COLUMN "User"."active" IS 'Whether the user account is active';
 
 -- ============================================
 -- SECOND LEVEL TABLES (Single FK Dependencies)
@@ -275,6 +300,16 @@ CREATE INDEX "idx_chapter_kc"
 CREATE INDEX "idx_knowledge_category"
     ON "knowledge" ("category_id");
 
+-- User indexes
+CREATE UNIQUE INDEX "idx_user_email"
+    ON "User" ("email");
+
+CREATE INDEX "idx_user_system_role"
+    ON "User" ("system_role");
+
+CREATE INDEX "idx_user_active"
+    ON "User" ("active");
+
 -- ============================================
 -- DATABASE STATISTICS (for query optimization)
 -- ============================================
@@ -284,12 +319,36 @@ ANALYZE "territory";
 ANALYZE "KC-Team";
 ANALYZE "Knowledge_Category";
 ANALYZE "Knowledge_Level";
+ANALYZE "User";
 ANALYZE "account";
 ANALYZE "Chapter";
 ANALYZE "knowledge";
 ANALYZE "Project";
 ANALYZE "Pragmatic";
 ANALYZE "Applied_Knowledge";
+
+-- ============================================
+-- SEED DATA - System Roles Documentation
+-- ============================================
+
+-- System Roles available in the application:
+-- 1. FULL_ADMINISTRATOR    - Complete system access, can perform all operations
+-- 2. KNOWLEDGE_MANAGER     - Can create and manage knowledge items and applied knowledge
+-- 3. PROJECT_ACCOUNT_MANAGER - Can create and manage projects and client accounts
+-- 4. PEOPLE_MANAGER        - Can create and update Pragmatics (employees)
+-- 5. USER                  - Default role, read-only access for queries
+
+-- Example: Create a default administrator user
+-- INSERT INTO "User" ("id", "email", "first_name", "last_name", "system_role", "active", "created_at")
+-- VALUES (
+--     gen_random_uuid(),
+--     'admin@pragma.com.co',
+--     'System',
+--     'Administrator',
+--     'FULL_ADMINISTRATOR',
+--     true,
+--     CURRENT_TIMESTAMP
+-- );
 
 -- ============================================
 -- END OF SCHEMA
