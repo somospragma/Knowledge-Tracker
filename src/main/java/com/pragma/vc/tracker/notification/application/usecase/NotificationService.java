@@ -3,6 +3,8 @@ package com.pragma.vc.tracker.notification.application.usecase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+
 /**
  * Application service for the Notification bounded context.
  * Currently handles logging of domain events from other bounded contexts.
@@ -39,6 +41,30 @@ public class NotificationService {
                 pragmaticId,
                 knowledgeId != null ? knowledgeId.toString() : "null",
                 levelId != null ? levelId.toString() : "null"
+        );
+        logger.info("[NOTIFICATION] EventID={}, {}", eventId, message);
+    }
+
+    /**
+     * Logs an applied knowledge update event
+     */
+    public void notifyAppliedKnowledgeUpdated(
+            String eventId,
+            Long appliedKnowledgeId,
+            Long projectId,
+            Long pragmaticId,
+            Long knowledgeId,
+            Long levelId,
+            LocalDate startDate
+    ) {
+        String message = String.format(
+                "Applied Knowledge updated: ID=%d, ProjectID=%d, PragmaticID=%d, KnowledgeID=%s, LevelID=%s, StartDate=%s",
+                appliedKnowledgeId,
+                projectId,
+                pragmaticId,
+                knowledgeId != null ? knowledgeId.toString() : "null",
+                levelId != null ? levelId.toString() : "null",
+                startDate != null ? startDate.toString() : "null"
         );
         logger.info("[NOTIFICATION] EventID={}, {}", eventId, message);
     }

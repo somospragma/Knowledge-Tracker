@@ -21,6 +21,7 @@ import com.pragma.vc.tracker.knowledgecatalog.domain.repository.LevelRepository;
 import com.pragma.vc.tracker.knowledgecatalog.domain.exception.KnowledgeNotFoundException;
 import com.pragma.vc.tracker.knowledgecatalog.domain.exception.LevelNotFoundException;
 import com.pragma.vc.tracker.knowledgeapplication.domain.event.AppliedKnowledgeCreatedEvent;
+import com.pragma.vc.tracker.knowledgeapplication.domain.event.AppliedKnowledgeUpdatedEvent;
 import com.pragma.vc.tracker.shared.application.port.EventPublisher;
 
 import java.util.List;
@@ -165,6 +166,18 @@ public class AppliedKnowledgeService {
         }
 
         AppliedKnowledge updated = appliedKnowledgeRepository.save(appliedKnowledge);
+
+        // Publish domain event asynchronously
+        AppliedKnowledgeUpdatedEvent event = new AppliedKnowledgeUpdatedEvent(
+                updated.getId().getValue(),
+                updated.getProjectId().getValue(),
+                updated.getPragmaticId().getValue(),
+                updated.getKnowledgeId() != null ? updated.getKnowledgeId().getValue() : null,
+                updated.getLevelId() != null ? updated.getLevelId().getValue() : null,
+                updated.getStartDate()
+        );
+        eventPublisher.publish(event);
+
         return AppliedKnowledgeMapper.toDTO(updated);
     }
 

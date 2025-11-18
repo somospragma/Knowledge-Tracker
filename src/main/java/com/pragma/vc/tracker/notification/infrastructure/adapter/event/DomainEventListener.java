@@ -1,6 +1,7 @@
 package com.pragma.vc.tracker.notification.infrastructure.adapter.event;
 
 import com.pragma.vc.tracker.knowledgeapplication.domain.event.AppliedKnowledgeCreatedEvent;
+import com.pragma.vc.tracker.knowledgeapplication.domain.event.AppliedKnowledgeUpdatedEvent;
 import com.pragma.vc.tracker.notification.application.usecase.NotificationService;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -33,6 +34,24 @@ public class DomainEventListener {
                 event.getPragmaticId(),
                 event.getKnowledgeId(),
                 event.getLevelId()
+        );
+    }
+
+    /**
+     * Handles AppliedKnowledgeUpdatedEvent asynchronously.
+     * This listener is triggered when Applied Knowledge is updated.
+     */
+    @Async
+    @EventListener
+    public void handleAppliedKnowledgeUpdated(AppliedKnowledgeUpdatedEvent event) {
+        notificationService.notifyAppliedKnowledgeUpdated(
+                event.getEventId(),
+                event.getAppliedKnowledgeId(),
+                event.getProjectId(),
+                event.getPragmaticId(),
+                event.getKnowledgeId(),
+                event.getLevelId(),
+                event.getStartDate()
         );
     }
 }
