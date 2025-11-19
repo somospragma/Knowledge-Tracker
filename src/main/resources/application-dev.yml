@@ -41,6 +41,25 @@ spring:
     connection-timeout: 30s
     socket-timeout: 30s
 
+  # Security Configuration (OAuth2 Resource Server with Keycloak)
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8180/realms/pragma-knowledge-tracker}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8180/realms/pragma-knowledge-tracker/protocol/openid-connect/certs}
+
+# Keycloak Admin Client Configuration
+keycloak:
+  server-url: ${KEYCLOAK_SERVER_URL:http://localhost:8180}
+  realm: ${KEYCLOAK_REALM:pragma-knowledge-tracker}
+  admin-client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:admin-cli}
+  admin-username: ${KEYCLOAK_ADMIN_USERNAME:admin}
+  admin-password: ${KEYCLOAK_ADMIN_PASSWORD:admin}
+  # Client for user authentication
+  client-id: ${KEYCLOAK_CLIENT_ID:knowledge-tracker-api}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET:}
+
 # Development Logging
 logging:
   level:

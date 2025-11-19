@@ -41,6 +41,7 @@ fi
 # Parse command line arguments
 WITH_PGADMIN=false
 WITH_KIBANA=false
+WITH_KEYCLOAK=true  # Keycloak enabled by default
 REBUILD=false
 
 while [[ $# -gt 0 ]]; do
@@ -53,9 +54,18 @@ while [[ $# -gt 0 ]]; do
             WITH_KIBANA=true
             shift
             ;;
+        --with-keycloak)
+            WITH_KEYCLOAK=true
+            shift
+            ;;
+        --without-keycloak)
+            WITH_KEYCLOAK=false
+            shift
+            ;;
         --with-all)
             WITH_PGADMIN=true
             WITH_KIBANA=true
+            WITH_KEYCLOAK=true
             shift
             ;;
         --rebuild)
@@ -66,18 +76,21 @@ while [[ $# -gt 0 ]]; do
             echo "Usage: ./start-dev.sh [OPTIONS]"
             echo ""
             echo "Options:"
-            echo "  --with-pgadmin    Start pgAdmin alongside PostgreSQL"
-            echo "  --with-kibana     Start Kibana alongside Elasticsearch"
-            echo "  --with-all        Start all optional services (pgAdmin + Kibana)"
-            echo "  --rebuild         Rebuild containers before starting"
-            echo "  --help            Show this help message"
+            echo "  --with-pgadmin       Start pgAdmin alongside PostgreSQL"
+            echo "  --with-kibana        Start Kibana alongside Elasticsearch"
+            echo "  --with-keycloak      Start Keycloak (enabled by default)"
+            echo "  --without-keycloak   Skip Keycloak startup"
+            echo "  --with-all           Start all optional services (pgAdmin + Kibana + Keycloak)"
+            echo "  --rebuild            Rebuild containers before starting"
+            echo "  --help               Show this help message"
             echo ""
             echo "Examples:"
-            echo "  ./start-dev.sh                    # Start PostgreSQL, Elasticsearch, and Logstash"
-            echo "  ./start-dev.sh --with-pgadmin     # Start with pgAdmin"
-            echo "  ./start-dev.sh --with-kibana      # Start with Kibana"
-            echo "  ./start-dev.sh --with-all         # Start with all optional services"
-            echo "  ./start-dev.sh --rebuild          # Rebuild and start containers"
+            echo "  ./start-dev.sh                      # Start PostgreSQL, Elasticsearch, Logstash, and Keycloak"
+            echo "  ./start-dev.sh --with-pgadmin       # Start with pgAdmin"
+            echo "  ./start-dev.sh --with-kibana        # Start with Kibana"
+            echo "  ./start-dev.sh --without-keycloak   # Start without Keycloak"
+            echo "  ./start-dev.sh --with-all           # Start with all optional services"
+            echo "  ./start-dev.sh --rebuild            # Rebuild and start containers"
             exit 0
             ;;
         *)
@@ -101,6 +114,13 @@ fi
 # Start containers
 echo -e "${GREEN}Starting containers...${NC}"
 PROFILES=""
+SERVICES="postgres elasticsearch logstash"
+
+# Add Keycloak to services if enabled
+if [ "$WITH_KEYCLOAK" = true ]; then
+    SERVICES="$SERVICES keycloak-postgres keycloak"
+fi
+
 if [ "$WITH_PGADMIN" = true ]; then
     PROFILES="$PROFILES --profile with-pgadmin"
 fi
@@ -111,7 +131,7 @@ fi
 if [ -n "$PROFILES" ]; then
     docker-compose $PROFILES up -d
 else
-    docker-compose up -d postgres elasticsearch logstash
+    docker-compose up -d $SERVICES
 fi
 
 # Wait for PostgreSQL to be healthy
@@ -148,6 +168,18 @@ else
     echo -e "${GREEN}Logstash is ready!${NC}"
 fi
 
+# Wait for Keycloak if enabled
+if [ "$WITH_KEYCLOAK" = true ]; then
+    echo -e "${YELLOW}Waiting for Keycloak to be ready (this may take 60-90 seconds)...${NC}"
+    timeout 120 bash -c 'until curl -f http://localhost:${KEYCLOAK_PORT:-8180}/health/ready > /dev/null 2>&1; do sleep 3; done'
+
+    if [ $? -ne 0 ]; then
+        echo -e "${YELLOW}Warning: Keycloak may not be fully ready yet. Check logs with: docker-compose logs keycloak${NC}"
+    else
+        echo -e "${GREEN}Keycloak is ready!${NC}"
+    fi
+fi
+
 echo ""
 echo -e "${GREEN}================================================${NC}"
 echo -e "${GREEN}Dev Environment Started Successfully!${NC}"
@@ -172,6 +204,21 @@ echo -e "  Pipelines:      5 (accounts, projects, pragmatics, knowledge, applied
 echo -e "  Sync Interval:  30-60 seconds"
 echo ""
 
+if [ "$WITH_KEYCLOAK" = true ]; then
+    echo -e "${GREEN}Keycloak Details:${NC}"
+    echo -e "  Admin Console:   http://localhost:${KEYCLOAK_PORT:-8180}"
+    echo -e "  Admin Username:  ${KEYCLOAK_ADMIN_USER:-admin}"
+    echo -e "  Admin Password:  ${KEYCLOAK_ADMIN_PASSWORD:-admin}"
+    echo -e "  Realm:           pragma-knowledge-tracker"
+    echo -e "  Health Check:    http://localhost:${KEYCLOAK_PORT:-8180}/health/ready"
+    echo -e "  Token Endpoint:  http://localhost:${KEYCLOAK_PORT:-8180}/realms/pragma-knowledge-tracker/protocol/openid-connect/token"
+    echo ""
+    echo -e "${YELLOW}  ⚠️  IMPORTANT: Get client secret from Admin Console${NC}"
+    echo -e "${YELLOW}      Navigate to: Clients → knowledge-tracker-api → Credentials${NC}"
+    echo -e "${YELLOW}      Copy the secret and update KEYCLOAK_CLIENT_SECRET in .env${NC}"
+    echo ""
+fi
+
 if [ "$WITH_PGADMIN" = true ]; then
     echo -e "${GREEN}pgAdmin Details:${NC}"
     echo -e "  URL:      http://localhost:${PGADMIN_PORT:-5050}"
@@ -194,8 +241,19 @@ echo -e "${GREEN}To stop the containers:${NC}"
 echo -e "  docker-compose down"
 echo ""
 echo -e "${GREEN}To view logs:${NC}"
-echo -e "  docker-compose logs -f postgres elasticsearch logstash"
+if [ "$WITH_KEYCLOAK" = true ]; then
+    echo -e "  docker-compose logs -f postgres elasticsearch logstash keycloak"
+else
+    echo -e "  docker-compose logs -f postgres elasticsearch logstash"
+fi
 echo ""
 echo -e "${GREEN}To monitor Logstash pipelines:${NC}"
 echo -e "  curl http://localhost:9600/_node/stats/pipelines?pretty"
 echo ""
+if [ "$WITH_KEYCLOAK" = true ]; then
+    echo -e "${GREEN}To register a new user (after starting the application):${NC}"
+    echo -e "  curl -X POST http://localhost:8080/api/v1/users/register \\"
+    echo -e "    -H 'Content-Type: application/json' \\"
+    echo -e "    -d '{\"email\":\"test@pragma.com.co\",\"firstName\":\"Test\",\"lastName\":\"User\",\"systemRole\":\"USER\",\"password\":\"Password123\"}'"
+    echo ""
+fi
