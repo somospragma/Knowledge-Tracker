@@ -67,6 +67,18 @@ public class UserManagementExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
+    @ExceptionHandler(KeycloakUserServiceAdapter.KeycloakRoleAssignmentException.class)
+    public ResponseEntity<ErrorResponse> handleKeycloakRoleAssignmentException(
+            KeycloakUserServiceAdapter.KeycloakRoleAssignmentException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Keycloak Role Assignment Error",
+                ex.getMessage(),
+                Instant.now()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
         ErrorResponse error = new ErrorResponse(

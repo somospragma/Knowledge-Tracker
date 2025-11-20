@@ -94,8 +94,19 @@ public class RegisterUserUseCase {
             );
             logger.info("User created in Keycloak with ID: {}", keycloakUserId);
 
-            // TODO: Optionally assign roles in Keycloak based on SystemRole
-            // keycloakUserService.assignRoles(keycloakUserId, mapSystemRoleToKeycloakRoles(systemRole));
+            // 5a. Assign system role to user in Keycloak
+            try {
+                String keycloakRoleName = systemRole.toKeycloakRoleName();
+                keycloakUserService.assignRoles(keycloakUserId, keycloakRoleName);
+                logger.info("Assigned role '{}' to user {} in Keycloak", keycloakRoleName, keycloakUserId);
+            } catch (Exception roleException) {
+                // Log warning but don't fail the registration if role assignment fails
+                // The user exists in both systems, they just won't have the correct role in Keycloak
+                logger.warn("Failed to assign role to user {} in Keycloak: {}. User created but role assignment failed.",
+                        keycloakUserId, roleException.getMessage());
+                // Note: Consider whether this should be a hard failure or soft failure
+                // Current implementation: soft failure (user created, role assignment failed)
+            }
 
         } catch (Exception e) {
             // Rollback: delete user from database if Keycloak creation fails

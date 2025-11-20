@@ -85,11 +85,47 @@ public class KeycloakUserServiceAdapter implements KeycloakUserService {
     public void assignRoles(String keycloakUserId, String... roles) {
         logger.info("Assigning roles to user {} in Keycloak: {}", keycloakUserId, String.join(", ", roles));
 
-        // Note: Role assignment implementation depends on your Keycloak realm configuration
-        // This is a placeholder for realm roles assignment
-        // You might need to adapt this based on whether you're using realm roles or client roles
+        if (roles == null || roles.length == 0) {
+            logger.warn("No roles provided for assignment");
+            return;
+        }
 
-        logger.warn("Role assignment not fully implemented yet. Roles to assign: {}", String.join(", ", roles));
+        RealmResource realmResource = getRealmResource();
+        UsersResource usersResource = realmResource.users();
+
+        try {
+            // Get all available realm roles
+            var availableRoles = realmResource.roles().list();
+
+            // Filter to only the roles we want to assign
+            var rolesToAssign = availableRoles.stream()
+                    .filter(role -> {
+                        for (String roleName : roles) {
+                            if (role.getName().equalsIgnoreCase(roleName)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    })
+                    .toList();
+
+            if (rolesToAssign.isEmpty()) {
+                logger.warn("None of the specified roles were found in Keycloak realm: {}", String.join(", ", roles));
+                return;
+            }
+
+            // Assign the roles to the user
+            usersResource.get(keycloakUserId).roles().realmLevel().add(rolesToAssign);
+
+            logger.info("Successfully assigned {} role(s) to user {}: {}",
+                    rolesToAssign.size(),
+                    keycloakUserId,
+                    rolesToAssign.stream().map(org.keycloak.representations.idm.RoleRepresentation::getName).toList());
+
+        } catch (Exception e) {
+            logger.error("Failed to assign roles to user {} in Keycloak", keycloakUserId, e);
+            throw new KeycloakRoleAssignmentException("Failed to assign roles in Keycloak: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -157,6 +193,19 @@ public class KeycloakUserServiceAdapter implements KeycloakUserService {
         }
 
         public KeycloakUserCreationException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+    /**
+     * Custom exception for Keycloak role assignment failures
+     */
+    public static class KeycloakRoleAssignmentException extends RuntimeException {
+        public KeycloakRoleAssignmentException(String message) {
+            super(message);
+        }
+
+        public KeycloakRoleAssignmentException(String message, Throwable cause) {
             super(message, cause);
         }
     }

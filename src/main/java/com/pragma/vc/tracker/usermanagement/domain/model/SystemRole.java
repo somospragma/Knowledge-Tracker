@@ -114,6 +114,27 @@ public enum SystemRole {
     }
 
     /**
+     * Converts SystemRole to Keycloak realm role name.
+     * Keycloak uses lowercase with underscores for role names.
+     *
+     * @return Keycloak role name (e.g., "full_administrator", "knowledge_manager")
+     */
+    public String toKeycloakRoleName() {
+        return this.name().toLowerCase();
+    }
+
+    /**
+     * Gets all Keycloak role names for mapping purposes
+     *
+     * @return Set of all Keycloak role names
+     */
+    public static Set<String> getAllKeycloakRoleNames() {
+        return Arrays.stream(values())
+                .map(SystemRole::toKeycloakRoleName)
+                .collect(Collectors.toSet());
+    }
+
+    /**
      * Permissions that can be granted through roles
      */
     public enum Permission {

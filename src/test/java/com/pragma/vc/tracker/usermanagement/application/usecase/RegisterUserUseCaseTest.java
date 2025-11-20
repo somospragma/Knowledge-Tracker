@@ -110,6 +110,9 @@ class RegisterUserUseCaseTest {
                 false
         );
 
+        // Verify role assignment
+        verify(keycloakUserService).assignRoles("keycloak-user-id-123", "user");
+
         // Verify event was published
         ArgumentCaptor<UserRegisteredEvent> eventCaptor = ArgumentCaptor.forClass(UserRegisteredEvent.class);
         verify(eventPublisher).publish(eventCaptor.capture());
@@ -281,6 +284,9 @@ class RegisterUserUseCaseTest {
         // Then
         assertThat(result).isNotNull();
         assertThat(result.getSystemRole()).isEqualTo("FULL_ADMINISTRATOR");
+
+        // Verify role assignment with correct Keycloak role name
+        verify(keycloakUserService).assignRoles("keycloak-admin-id", "full_administrator");
 
         ArgumentCaptor<UserRegisteredEvent> eventCaptor = ArgumentCaptor.forClass(UserRegisteredEvent.class);
         verify(eventPublisher).publish(eventCaptor.capture());
