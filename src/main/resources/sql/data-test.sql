@@ -215,3 +215,34 @@ INSERT INTO "applied_knowledge" ("id", "project_id", "pragmatic_id", "knowledge_
 (44, 7, 8, 26, '2023-09-01', 2),  -- Laura: Jenkins - Intermediate
 (45, 7, 14, 33, '2023-09-01', 3), -- Natalia: TDD - Advanced
 (46, 7, 14, 38, '2023-09-01', 2); -- Natalia: Agile - Intermediate
+
+-- =====================================================
+-- User (System users for authentication and authorization)
+-- =====================================================
+INSERT INTO "User" (id, email, first_name, last_name, system_role, active, created_at, updated_at) VALUES
+-- Full Administrators
+('a0000000-0000-0000-0000-000000000001', 'admin@pragma.com.co', 'System', 'Administrator', 'FULL_ADMINISTRATOR', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-000000000002', 'laura.diaz@pragma.com.co', 'Laura', 'Díaz', 'FULL_ADMINISTRATOR', true, CURRENT_TIMESTAMP, NULL),
+
+-- Knowledge Managers
+('a0000000-0000-0000-0000-000000000003', 'carlos.rodriguez@pragma.com.co', 'Carlos', 'Rodríguez', 'KNOWLEDGE_MANAGER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-000000000004', 'sofia.gonzalez@pragma.com.co', 'Sofía', 'González', 'KNOWLEDGE_MANAGER', true, CURRENT_TIMESTAMP, NULL),
+
+-- Project/Account Managers
+('a0000000-0000-0000-0000-000000000005', 'juan.perez@pragma.com.co', 'Juan', 'Pérez', 'PROJECT_ACCOUNT_MANAGER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-000000000006', 'maria.garcia@pragma.com.co', 'María', 'García', 'PROJECT_ACCOUNT_MANAGER', true, CURRENT_TIMESTAMP, NULL),
+
+-- People Managers
+('a0000000-0000-0000-0000-000000000007', 'jorge.sanchez@pragma.com.co', 'Jorge', 'Sánchez', 'PEOPLE_MANAGER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-000000000008', 'paula.ramirez@pragma.com.co', 'Paula', 'Ramírez', 'PEOPLE_MANAGER', true, CURRENT_TIMESTAMP, NULL),
+
+-- Regular Users
+('a0000000-0000-0000-0000-000000000009', 'luis.lopez@pragma.com.co', 'Luis', 'López', 'USER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-00000000000a', 'diego.hernandez@pragma.com.co', 'Diego', 'Hernández', 'USER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-00000000000b', 'camila.flores@pragma.com.co', 'Camila', 'Flores', 'USER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-00000000000c', 'santiago.parra@pragma.com.co', 'Santiago', 'Parra', 'USER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-00000000000d', 'natalia.moreno@pragma.com.co', 'Natalia', 'Moreno', 'USER', true, CURRENT_TIMESTAMP, NULL),
+('a0000000-0000-0000-0000-00000000000e', 'andres.torres@pragma.com.co', 'Andrés', 'Torres', 'USER', true, CURRENT_TIMESTAMP, NULL),
+
+-- Inactive User (for testing)
+('a0000000-0000-0000-0000-00000000000f', 'ana.martinez@pragma.com.co', 'Ana', 'Martínez', 'USER', false, CURRENT_TIMESTAMP, NULL);
