@@ -1,22 +1,78 @@
 # Pragma Knowledge Tracking System (Vigilancia)
 
-## Description
+<div align="center">
+
+**A comprehensive platform for tracking and analyzing technical knowledge applied by Pragma SA employees across client projects**
+
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
+[![Elasticsearch](https://img.shields.io/badge/Elasticsearch-8.11.0-yellow.svg)](https://www.elastic.co/)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+  - [Description](#description)
+  - [Key Features](#key-features)
+- [Business Context](#business-context)
+  - [Business Goals](#business-goals)
+  - [Target Users](#target-users)
+  - [Domain Model](#domain-model)
+- [Architecture](#architecture)
+  - [Architectural Style](#architectural-style)
+  - [Layer Structure](#layer-structure)
+  - [Dependency Rules](#dependency-rules)
+- [Technology Stack](#technology-stack)
+  - [Core Technologies](#core-technologies)
+  - [Spring Boot Starters](#spring-boot-starters)
+  - [Development Tools](#development-tools)
+- [Quick Start](#quick-start)
+- [Build & Run](#build--run)
+  - [Prerequisites](#prerequisites)
+  - [Environment Setup](#environment-setup)
+  - [Build Commands](#build-commands)
+  - [Run Commands](#run-commands)
+  - [Testing Commands](#testing-commands)
+- [Project Structure](#project-structure)
+- [Development Guidelines](#development-guidelines)
+- [Documentation](#documentation)
+  - [API Documentation](#api-documentation)
+  - [Authentication](#authentication)
+  - [Database](#database)
+  - [ELK Stack](#elk-stack)
+  - [Development](#development)
+  - [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact & Support](#contact--support)
+
+---
+
+## Overview
+
+### Description
 
 The Pragma Knowledge Tracking System is a comprehensive platform designed to track and analyze technical knowledge that Pragma SA employees (Pragmatics) apply to client projects. The system provides visibility into the technical expertise utilized across projects, enabling better resource allocation, skills gap identification, and strategic decision-making.
 
-**Key Features:**
-- Track technical knowledge applied by Pragmatics across client projects
-- Manage client accounts and project assignments
-- Monitor skill proficiency levels (Beginner, Intermediate, Advanced, Expert)
-- Categorize knowledge by type (Platform, Language, Framework, Tool, Technique)
-- Support strategic resource allocation and training initiatives
-- Provide clients with transparency into technical capabilities
+### Key Features
+
+- **Knowledge Registration** - Register technical knowledge applied by Pragmatics across client projects
+- **Account Management** - Manage client accounts and project assignments
+- **Skill Monitoring** - Monitor skill proficiency levels (Beginner, Intermediate, Advanced, Expert)
+- **Knowledge Categorization** - Categorize knowledge by type (Platform, Language, Framework, Tool, Technique)
+- **Resource Optimization** - Support strategic resource allocation and training initiatives
+- **Client Transparency** - Provide clients with transparency into technical capabilities
 
 ---
 
 ## Business Context
 
 ### Business Goals
+
 1. **Resource Optimization** - Track technical knowledge applied across all Pragma SA projects to enable better resource allocation based on Pragmatic expertise
 2. **Skills Development** - Identify skills gaps and training needs across the organization
 3. **Client Transparency** - Provide clients visibility into technical capabilities and expertise deployed on their projects
@@ -24,21 +80,26 @@ The Pragma Knowledge Tracking System is a comprehensive platform designed to tra
 5. **Quality Assurance** - Ensure appropriate skill levels are assigned to project requirements
 
 ### Target Users
-- **Pragma SA Management** - Resource allocation and strategic planning
-- **Project Managers** - Skills visibility and team composition
-- **Clients** - Transparency into technical capabilities
-- **HR and Training Teams** - Skills development and training program planning
-- **Pragmatics (Employees)** - Self-assessment and career development
+
+| User Type | Purpose |
+|-----------|---------|
+| **Pragma SA Management** | Resource allocation and strategic planning |
+| **Project Managers** | Skills visibility and team composition |
+| **Clients** | Transparency into technical capabilities |
+| **HR and Training Teams** | Skills development and training program planning |
+| **Pragmatics (Employees)** | Self-assessment and career development |
 
 ### Domain Model
 
-**Bounded Contexts:**
+#### Bounded Contexts
+
 1. **Knowledge Application (Core)** - Track what knowledge Pragmatics apply to projects
 2. **Project Management** - Manage client accounts and projects
 3. **People Management** - Manage Pragma SA employees (Pragmatics)
 4. **Knowledge Catalog** - Define technical knowledge categories
 
-**Key Entities:**
+#### Key Entities
+
 - **Account** - Client organization
 - **Project** - Client project with assigned Pragmatics
 - **Pragmatic** - Pragma SA employee
@@ -50,7 +111,8 @@ The Pragma Knowledge Tracking System is a comprehensive platform designed to tra
 ## Architecture
 
 ### Architectural Style
-**Hexagonal Architecture (Ports & Adapters) with Domain-Driven Design**
+
+**Clean Architecture (Ports & Adapters) with Domain-Driven Design**
 
 The application follows a strict layered architecture that separates business logic from infrastructure concerns, ensuring maintainability, testability, and framework independence.
 
@@ -97,31 +159,31 @@ Domain Layer (Pure Java)
 ## Technology Stack
 
 ### Core Technologies
-- **Java** - 21 (LTS)
-- **Spring Boot** - 3.5.6
-- **Gradle** - 8.x with Gradle Wrapper
-- **PostgreSQL** - 16 (production database)
-- **ELK Stack** - Full Elastic Stack for search and analytics
-  - **Elasticsearch** - 8.11.0 (search engine and analytics)
-  - **Logstash** - 8.11.0 (data processing and PostgreSQL sync)
-  - **Kibana** - 8.11.0 (visualization and dashboards)
-- **H2 Database** - In-memory (development/testing)
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Java** | 21 (LTS) | Core programming language |
+| **Spring Boot** | 3.5.6 | Application framework |
+| **Gradle** | 8.x | Build automation |
+| **PostgreSQL** | 16 | Production database |
+| **Elasticsearch** | 8.11.0 | Search engine and analytics |
+| **Logstash** | 8.11.0 | Data processing and PostgreSQL sync |
+| **Kibana** | 8.11.0 | Visualization and dashboards |
+| **H2 Database** | In-memory | Development/testing database |
 
 ### Spring Boot Starters
+
 - `spring-boot-starter-web` - REST API support
 - `spring-boot-starter-data-jpa` - Data persistence with JPA
 - `spring-boot-starter-actuator` - Application monitoring and health checks
 - `spring-boot-devtools` - Development hot reloading
 
 ### Development Tools
+
 - **Lombok** - Reduce boilerplate code (@Getter, @Setter, @Builder, etc.)
 - **JUnit 5** - Unit and integration testing
 - **Mockito** - Mocking framework for tests
 - **AssertJ** - Fluent assertions for tests
-
-### Database
-- **PostgreSQL Driver** - Production database connectivity
-- **Hibernate** - ORM (JPA implementation)
 
 ---
 
@@ -142,199 +204,210 @@ chmod +x start-dev.sh
 ./gradlew bootRun --args='--spring.profiles.active=dev'
 ```
 
-The application will be available at http://localhost:8080
+The application will be available at:
+- **Application**: http://localhost:8080
 - **PostgreSQL**: localhost:5432
 - **Elasticsearch**: http://localhost:9200
-- **Logstash**: http://localhost:9600 (monitoring API)
+- **Logstash Monitoring**: http://localhost:9600
 
 ---
 
 ## Build & Run
 
 ### Prerequisites
+
 - Java 21 or higher
 - Docker and Docker Compose (recommended for local development)
 - Git
 
-**Note:** PostgreSQL 16 is required but can be easily started using Docker (see Environment Setup below). Manual PostgreSQL installation is optional.
+**Note:** PostgreSQL 16 and Elasticsearch are required but can be easily started using Docker (see Environment Setup below). Manual installation is optional.
 
 ### Environment Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd Knowledge-Tracker
-   ```
+#### 1. Clone the Repository
 
-2. **Configure environment variables**
-   ```bash
-   # Copy the example environment file
-   cp .env.example .env
+```bash
+git clone <repository-url>
+cd Knowledge-Tracker
+```
 
-   # Edit .env with your configuration (optional - defaults work for local development)
-   nano .env
-   ```
+#### 2. Configure Environment Variables
 
-3. **Start Development Services with Docker (Recommended)**
+```bash
+# Copy the example environment file
+cp .env.example .env
 
-   The easiest way to get started is using Docker Compose with the provided `start-dev.sh` script:
+# Edit .env with your configuration (optional - defaults work for local development)
+nano .env
+```
 
-   ```bash
-   # Make the script executable (first time only)
-   chmod +x start-dev.sh
+#### 3. Start Development Services with Docker (Recommended)
 
-   # Start PostgreSQL and Elasticsearch
-   ./start-dev.sh
+The easiest way to get started is using Docker Compose with the provided `start-dev.sh` script:
 
-   # Start with pgAdmin (PostgreSQL management UI)
-   ./start-dev.sh --with-pgadmin
+```bash
+# Make the script executable (first time only)
+chmod +x start-dev.sh
 
-   # Start with Kibana (Elasticsearch visualization)
-   ./start-dev.sh --with-kibana
+# Start PostgreSQL, Elasticsearch, and Logstash
+./start-dev.sh
 
-   # Start with all optional services
-   ./start-dev.sh --with-all
+# Start with pgAdmin (PostgreSQL management UI)
+./start-dev.sh --with-pgadmin
 
-   # Rebuild containers before starting
-   ./start-dev.sh --rebuild
+# Start with Kibana (Elasticsearch visualization)
+./start-dev.sh --with-kibana
 
-   # View help
-   ./start-dev.sh --help
-   ```
+# Start with all optional services
+./start-dev.sh --with-all
 
-   **What the script does:**
-   - Checks if Docker is running
-   - Creates `.env` file from `.env.example` if not present
-   - Starts the full ELK stack in Docker containers:
-     - PostgreSQL 16 (primary database)
-     - Elasticsearch 8.11.0 (search engine)
-     - Logstash 8.11.0 (data sync and processing)
-   - Waits for all services to be ready and healthy
-   - Optionally starts pgAdmin and/or Kibana
-   - Displays connection details and monitoring endpoints
+# Rebuild containers before starting
+./start-dev.sh --rebuild
 
-   **PostgreSQL Connection Details** (default values):
-   - Host: `localhost`
-   - Port: `5432`
-   - Database: `knowledge_tracker_dev`
-   - Username: `pragma_dev`
-   - Password: `pragma_dev_password`
+# View help
+./start-dev.sh --help
+```
 
-   **Elasticsearch Connection Details** (default values):
-   - URL: http://localhost:9200
-   - Health Check: http://localhost:9200/_cluster/health
-   - Security: Disabled (development mode)
+**What the script does:**
+- Checks if Docker is running
+- Creates `.env` file from `.env.example` if not present
+- Starts the full ELK stack in Docker containers
+- Waits for all services to be ready and healthy
+- Optionally starts pgAdmin and/or Kibana
+- Displays connection details and monitoring endpoints
 
-   **Logstash Connection Details** (default values):
-   - Monitoring API: http://localhost:9600
-   - Node Stats: http://localhost:9600/_node/stats
-   - Pipeline Stats: http://localhost:9600/_node/stats/pipelines?pretty
-   - **Pipelines**: 5 automated sync pipelines running every 30-60 seconds
-     - `accounts-sync` - Syncs client accounts with territory info
-     - `projects-sync` - Syncs projects with account and staffing data
-     - `pragmatics-sync` - Syncs employees with chapter and knowledge data
-     - `knowledge-sync` - Syncs knowledge catalog with usage statistics
-     - `applied-knowledge-sync` - Syncs knowledge applications (CORE)
+#### 4. Service Connection Details
 
-   **pgAdmin Access** (when using `--with-pgadmin`):
-   - URL: http://localhost:5050
-   - Email: `admin@pragma.com`
-   - Password: `admin`
+**PostgreSQL** (default values):
 
-   **Kibana Access** (when using `--with-kibana`):
-   - URL: http://localhost:5601
-   - Note: May take 1-2 minutes to fully initialize
+| Parameter | Value |
+|-----------|-------|
+| Host | `localhost` |
+| Port | `5432` |
+| Database | `knowledge_tracker_dev` |
+| Username | `pragma_dev` |
+| Password | `pragma_dev_password` |
 
-   **Useful Docker Commands:**
-   ```bash
-   # Stop containers
-   docker-compose down
+**Elasticsearch** (default values):
 
-   # View service logs
-   docker-compose logs -f postgres elasticsearch logstash
+| Parameter | Value |
+|-----------|-------|
+| URL | http://localhost:9200 |
+| Health Check | http://localhost:9200/_cluster/health |
+| Security | Disabled (development mode) |
 
-   # View Logstash logs only
-   docker-compose logs -f logstash
+**Logstash** (default values):
 
-   # View all container logs
-   docker-compose logs -f
+| Parameter | Value |
+|-----------|-------|
+| Monitoring API | http://localhost:9600 |
+| Node Stats | http://localhost:9600/_node/stats |
+| Pipeline Stats | http://localhost:9600/_node/stats/pipelines?pretty |
 
-   # Stop and remove volumes (WARNING: deletes all data)
-   docker-compose down -v
+**Logstash Pipelines** - 5 automated sync pipelines running every 30-60 seconds:
+- `accounts-sync` - Syncs client accounts with territory info
+- `projects-sync` - Syncs projects with account and staffing data
+- `pragmatics-sync` - Syncs employees with chapter and knowledge data
+- `knowledge-sync` - Syncs knowledge catalog with usage statistics
+- `applied-knowledge-sync` - Syncs knowledge applications (CORE)
 
-   # Connect to PostgreSQL directly
-   docker exec -it knowledge-tracker-postgres-dev psql -U pragma_dev -d knowledge_tracker_dev
+**pgAdmin Access** (when using `--with-pgadmin`):
 
-   # Check Elasticsearch health
-   curl http://localhost:9200/_cluster/health?pretty
+| Parameter | Value |
+|-----------|-------|
+| URL | http://localhost:5050 |
+| Email | `admin@pragma.com` |
+| Password | `admin` |
 
-   # Monitor Logstash pipelines
-   curl http://localhost:9600/_node/stats/pipelines?pretty
+**Kibana Access** (when using `--with-kibana`):
 
-   # Check Logstash node info
-   curl http://localhost:9600/_node?pretty
+| Parameter | Value |
+|-----------|-------|
+| URL | http://localhost:5601 |
+| Note | May take 1-2 minutes to fully initialize |
 
-   # List Elasticsearch indices created by Logstash
-   curl http://localhost:9200/_cat/indices?v
+#### 5. Useful Docker Commands
 
-   # Search data in Elasticsearch (example: accounts)
-   curl http://localhost:9200/accounts-*/_search?pretty
+```bash
+# Stop containers
+docker-compose down
 
-   # View Logstash pipeline configuration
-   docker exec -it knowledge-tracker-logstash-dev ls -la /usr/share/logstash/pipeline/
-   ```
+# View service logs
+docker-compose logs -f postgres elasticsearch logstash
 
-4. **ELK Stack Data Flow**
+# View Logstash logs only
+docker-compose logs -f logstash
 
-   The Logstash pipelines automatically sync data from PostgreSQL to Elasticsearch:
+# Stop and remove volumes (WARNING: deletes all data)
+docker-compose down -v
 
-   ```
-   PostgreSQL (Source of Truth)
-        ↓
-   [Logstash JDBC Input]
-        ↓ (30-60 second intervals)
-   [Logstash Filters & Enrichment]
-        ├─ Parse JSON attributes
-        ├─ Calculate derived fields
-        ├─ Join related entities
-        └─ Add metadata
-        ↓
-   [Elasticsearch Indices]
-        ├─ accounts-YYYY.MM
-        ├─ projects-YYYY.MM
-        ├─ pragmatics-YYYY.MM
-        ├─ knowledge
-        └─ applied-knowledge-YYYY.MM
-        ↓
-   [Kibana Dashboards] (optional)
-        └─ Analytics & Visualizations
-   ```
+# Connect to PostgreSQL directly
+docker exec -it knowledge-tracker-postgres-dev psql -U pragma_dev -d knowledge_tracker_dev
 
-   **Benefits:**
-   - Near real-time search capabilities
-   - Complex analytics without impacting PostgreSQL
-   - Full-text search on all entities
-   - Pre-aggregated statistics (e.g., knowledge usage, project staffing)
-   - Time-series data with monthly indices
-   - Easy data exploration via Kibana
+# Check Elasticsearch health
+curl http://localhost:9200/_cluster/health?pretty
 
-5. **Alternative: Manual Setup**
+# Monitor Logstash pipelines
+curl http://localhost:9600/_node/stats/pipelines?pretty
 
-   If you prefer to install services manually instead of using Docker:
+# List Elasticsearch indices
+curl http://localhost:9200/_cat/indices?v
 
-   **PostgreSQL:**
-   ```sql
-   CREATE DATABASE knowledge_tracker_dev;
-   CREATE DATABASE knowledge_tracker_test;
-   CREATE DATABASE knowledge_tracker;  -- production
-   ```
+# Search data in Elasticsearch (example: accounts)
+curl http://localhost:9200/accounts-*/_search?pretty
+```
 
-   **Elasticsearch:**
-   - Download and install Elasticsearch 8.11.0 from https://www.elastic.co/downloads/elasticsearch
-   - Disable security for development: Add `xpack.security.enabled: false` to `elasticsearch.yml`
-   - Start Elasticsearch service
+#### 6. ELK Stack Data Flow
 
-   Then update your `.env` file with your service credentials and connection details.
+The Logstash pipelines automatically sync data from PostgreSQL to Elasticsearch:
+
+```
+PostgreSQL (Source of Truth)
+     ↓
+[Logstash JDBC Input]
+     ↓ (30-60 second intervals)
+[Logstash Filters & Enrichment]
+     ├─ Parse JSON attributes
+     ├─ Calculate derived fields
+     ├─ Join related entities
+     └─ Add metadata
+     ↓
+[Elasticsearch Indices]
+     ├─ accounts-YYYY.MM
+     ├─ projects-YYYY.MM
+     ├─ pragmatics-YYYY.MM
+     ├─ knowledge
+     └─ applied-knowledge-YYYY.MM
+     ↓
+[Kibana Dashboards] (optional)
+     └─ Analytics & Visualizations
+```
+
+**Benefits:**
+- Near real-time search capabilities
+- Complex analytics without impacting PostgreSQL
+- Full-text search on all entities
+- Pre-aggregated statistics
+- Time-series data with monthly indices
+- Easy data exploration via Kibana
+
+#### 7. Alternative: Manual Setup
+
+If you prefer to install services manually instead of using Docker:
+
+**PostgreSQL:**
+```sql
+CREATE DATABASE knowledge_tracker_dev;
+CREATE DATABASE knowledge_tracker_test;
+CREATE DATABASE knowledge_tracker;  -- production
+```
+
+**Elasticsearch:**
+- Download and install Elasticsearch 8.11.0 from https://www.elastic.co/downloads/elasticsearch
+- Disable security for development: Add `xpack.security.enabled: false` to `elasticsearch.yml`
+- Start Elasticsearch service
+
+Then update your `.env` file with your service credentials and connection details.
 
 ### Build Commands
 
@@ -354,7 +427,8 @@ The application will be available at http://localhost:8080
 
 ### Run Commands
 
-**Development Profile (dev)**
+#### Development Profile (dev)
+
 ```bash
 # Using default values from application-dev.yml
 ./gradlew bootRun --args='--spring.profiles.active=dev'
@@ -368,12 +442,14 @@ DB_USERNAME=postgres DB_PASSWORD=postgres \
 set -a && source .env && set +a && ./gradlew bootRun --args='--spring.profiles.active=dev'
 ```
 
-**Test Profile (test)**
+#### Test Profile (test)
+
 ```bash
 ./gradlew bootRun --args='--spring.profiles.active=test'
 ```
 
-**Production Profile (prod)**
+#### Production Profile (prod)
+
 ```bash
 # IMPORTANT: Set production environment variables first!
 PROD_DB_HOST=prod-db.example.com \
@@ -409,7 +485,7 @@ PROD_SERVER_PORT=8080 \
 
 ### Environment Variables
 
-The application uses environment variables for configuration across different profiles:
+The application uses environment variables for configuration across different profiles.
 
 **Development Profile (dev):**
 
@@ -479,6 +555,7 @@ Knowledge-Tracker/
 │       ├── pragmatics-pipeline.conf       # Pragmatics sync pipeline
 │       ├── knowledge-pipeline.conf        # Knowledge catalog sync pipeline
 │       └── applied-knowledge-pipeline.conf # Applied knowledge sync pipeline
+├── docs/                                  # Documentation (see Documentation section)
 ├── docker-compose.yml                     # Docker services configuration
 ├── start-dev.sh                           # Development environment startup script
 ├── build.gradle                           # Gradle build configuration
@@ -495,25 +572,65 @@ Knowledge-Tracker/
 
 ### Adding New Features
 
-1. **Start with Domain Layer**
-   - Define entities, value objects, and aggregates in `domain/model/`
-   - Use pure Java - no framework annotations
-   - Define repository interfaces (ports) in `domain/repository/`
+#### 1. Start with Domain Layer
 
-2. **Add Application Layer**
-   - Create use cases in `application/usecase/`
-   - Use case classes should depend only on domain interfaces
-   - Register use cases as Spring beans in `infrastructure/config/`
+- Define entities, value objects, and aggregates in `domain/model/`
+- Use pure Java - no framework annotations
+- Define repository interfaces (ports) in `domain/repository/`
 
-3. **Implement Infrastructure Adapters**
-   - REST controllers in `infrastructure/adapter/web/`
-   - JPA entities and repositories in `infrastructure/adapter/persistence/`
-   - Use mappers to convert between layers
+#### 2. Add Application Layer
+
+- Create use cases in `application/usecase/`
+- Use case classes should depend only on domain interfaces
+- Register use cases as Spring beans in `infrastructure/config/`
+
+#### 3. Implement Infrastructure Adapters
+
+- REST controllers in `infrastructure/adapter/web/`
+- JPA entities and repositories in `infrastructure/adapter/persistence/`
+- Use mappers to convert between layers
 
 ### Testing Strategy
+
 - **Unit Tests** - Test domain logic with pure Java tests (no Spring context)
 - **Integration Tests** - Test adapters with `@SpringBootTest` or slice tests
 - **Use Case Tests** - Use `@MockBean` for ports when testing application layer
+
+---
+
+## Documentation
+
+Comprehensive documentation is available in the `docs/` folder:
+
+### API Documentation
+
+- [API Completion Summary](docs/API_COMPLETION_SUMMARY.md) - Overview of implemented API endpoints
+- [API Documentation Setup](docs/API_DOCUMENTATION_SETUP.md) - How to set up and use the API documentation
+
+### Authentication
+
+- [Keycloak Setup](docs/authentication/keycloak-setup.md) - Setting up Keycloak for authentication
+- [Keycloak Testing](docs/authentication/keycloak-testing.md) - Testing authentication flows
+
+### Database
+
+- [ER Diagram](docs/database/er-diagram.md) - Entity-Relationship diagram and database schema
+
+### ELK Stack
+
+- [Elasticsearch Test Queries](docs/elk/elasticsearch-test-queries.md) - Sample queries for testing Elasticsearch
+- [Kibana Dashboard Setup](docs/elk/kibana-dashboard-setup.md) - Setting up Kibana dashboards
+- [Kibana Quick Reference](docs/elk/KIBANA_QUICK_REFERENCE.md) - Quick reference for Kibana operations
+- [Kibana Setup](docs/elk/KIBANA_SETUP.md) - Complete Kibana setup guide
+
+### Development
+
+- [Claude Code Guide](docs/development/claude-code.md) - Using Claude Code with this project
+- [Docker Setup](docs/development/docker-setup.md) - Docker configuration and usage
+
+### Testing
+
+- [API Testing](docs/testing/api-testing.md) - Guide for testing API endpoints
 
 ---
 
