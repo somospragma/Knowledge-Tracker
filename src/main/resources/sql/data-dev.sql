@@ -15,9 +15,9 @@ INSERT INTO "territory" (id, name, created_at, updated_at) VALUES
 (6, 'Brasil', CURRENT_TIMESTAMP, NULL);
 
 -- =====================================================
--- kc-team (knowledge Center Teams)
+-- KC-Team (knowledge Center Teams)
 -- =====================================================
-INSERT INTO "kc-team" (id, name, created_at, updated_at) VALUES
+INSERT INTO "KC-Team" (id, name, created_at, updated_at) VALUES
 (1, 'KC Ciencias de la Computación', CURRENT_TIMESTAMP, NULL),
 (2, 'KC People-Centered Design', CURRENT_TIMESTAMP, NULL),
 (3, 'KC Powerful Teams', CURRENT_TIMESTAMP, NULL),
@@ -28,7 +28,7 @@ INSERT INTO "kc-team" (id, name, created_at, updated_at) VALUES
 -- =====================================================
 -- chapter (Organizational Units within kc-teams)
 -- =====================================================
-INSERT INTO "chapter" (id, kc_id, name, status, created_at, updated_at) VALUES
+INSERT INTO "Chapter" (id, kc_id, name, status, created_at, updated_at) VALUES
 -- Architecture & Backend kc-team
 (1, 1, 'Architecture', 'Active', CURRENT_TIMESTAMP, NULL),
 (2, 1, 'Backend', 'Active', CURRENT_TIMESTAMP, NULL),
@@ -73,7 +73,7 @@ INSERT INTO "account" (id, territory_id, name, status, attributes, created_at, u
 -- =====================================================
 -- pragmatic (Pragma SA Employees)
 -- =====================================================
-INSERT INTO "pragmatic" (id, chapter_id, email, first_name, last_name, status, created_at, updated_at, attributes) VALUES
+INSERT INTO "Pragmatic" (id, chapter_id, email, first_name, last_name, status, created_at, updated_at, attributes) VALUES
 -- Java Backend chapter
 (1, 1, 'juan.perez@pragma.com.co', 'Juan', 'Pérez', 'Active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{"seniority": "Senior", "years_experience": 8}'),
 (2, 1, 'maria.garcia@pragma.com.co', 'María', 'García', 'Active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{"seniority": "Senior", "years_experience": 7}'),
@@ -126,7 +126,7 @@ INSERT INTO "pragmatic" (id, chapter_id, email, first_name, last_name, status, c
 -- =====================================================
 -- project
 -- =====================================================
-INSERT INTO "project" (id, account_id, name, status, start_date, end_date, type, attributes, created_at, updated_at) VALUES
+INSERT INTO "Project" (id, account_id, name, status, start_date, end_date, type, attributes, created_at, updated_at) VALUES
 -- Bancolombia projects
 (1, 1, 'Bancolombia - Core Banking Modernization', 'Active', '2024-01-15', NULL, 'Abierto', '{"budget": "high", "priority": "critical", "team_size": 12}', CURRENT_TIMESTAMP, NULL),
 (2, 1, 'Bancolombia - Mobile Banking App v2', 'Active', '2024-03-01', NULL, 'Abierto', '{"budget": "medium", "priority": "high", "team_size": 8}', CURRENT_TIMESTAMP, NULL),
@@ -157,7 +157,7 @@ INSERT INTO "project" (id, account_id, name, status, start_date, end_date, type,
 -- =====================================================
 -- knowledge_category
 -- =====================================================
-INSERT INTO "knowledge_category" (id, name, created_at, updated_at) VALUES
+INSERT INTO "Knowledge_Category" (id, name, created_at, updated_at) VALUES
 (1, 'Cloud Platform', CURRENT_TIMESTAMP, NULL),
 (2, 'Programming Language', CURRENT_TIMESTAMP, NULL),
 (3, 'Framework', CURRENT_TIMESTAMP, NULL),
@@ -240,7 +240,7 @@ INSERT INTO "knowledge" (id, category_id, name, description, approved_status, at
 -- =====================================================
 -- knowledge_level
 -- =====================================================
-INSERT INTO "knowledge_level" (id, name, attributes, created_at, updated_at) VALUES
+INSERT INTO "Knowledge_Level" (id, name, attributes, created_at, updated_at) VALUES
 (1, 'Beginner', '{"description": "Basic understanding, can perform simple tasks with guidance", "years_experience": "0-1"}', CURRENT_TIMESTAMP, NULL),
 (2, 'Intermediate', '{"description": "Solid understanding, can work independently on most tasks", "years_experience": "1-3"}', CURRENT_TIMESTAMP, NULL),
 (3, 'Advanced', '{"description": "Deep expertise, can handle complex scenarios and mentor others", "years_experience": "3-5"}', CURRENT_TIMESTAMP, NULL),
@@ -250,7 +250,7 @@ INSERT INTO "knowledge_level" (id, name, attributes, created_at, updated_at) VAL
 -- applied_knowledge (Assignments)
 -- Note: knowledge_level is now a FK to knowledge_level table
 -- =====================================================
-INSERT INTO "applied_knowledge" (id, project_id, pragmatic_id, knowledge_id, onboard_date, offboard_date, knowledge_level, attributes, created_at, updated_at) VALUES
+INSERT INTO "Applied_Knowledge" (id, project_id, pragmatic_id, knowledge_id, onboard_date, offboard_date, knowledge_level, attributes, created_at, updated_at) VALUES
 -- project 1: Bancolombia - Core Banking Modernization
 (1, 1, 1, 6, '2024-01-15', NULL, 4, '{"role": "Tech Lead", "allocation": 100}', CURRENT_TIMESTAMP, NULL),   -- Juan: Java - Expert
 (2, 1, 1, 13, '2024-01-15', NULL, 4, '{"role": "Tech Lead", "allocation": 100}', CURRENT_TIMESTAMP, NULL),  -- Juan: Spring Boot - Expert
@@ -354,13 +354,13 @@ INSERT INTO "User" (id, email, first_name, last_name, system_role, active, creat
 -- Reset sequences to match inserted data
 -- =====================================================
 SELECT setval('"territory_id_seq"', (SELECT MAX(id) FROM "territory"));
-SELECT setval('"kc-team_id_seq"', (SELECT MAX(id) FROM "kc-team"));
-SELECT setval('"chapter_id_seq"', (SELECT MAX(id) FROM "chapter"));
+SELECT setval('"KC-Team_id_seq"', (SELECT MAX(id) FROM "KC-Team"));
+SELECT setval('"Chapter_id_seq"', (SELECT MAX(id) FROM "Chapter"));
 SELECT setval('"account_id_seq"', (SELECT MAX(id) FROM "account"));
-SELECT setval('"pragmatic_id_seq"', (SELECT MAX(id) FROM "pragmatic"));
-SELECT setval('"project_id_seq"', (SELECT MAX(id) FROM "project"));
-SELECT setval('"knowledge_category_id_seq"', (SELECT MAX(id) FROM "knowledge_category"));
+SELECT setval('"Pragmatic_id_seq"', (SELECT MAX(id) FROM "Pragmatic"));
+SELECT setval('"Project_id_seq"', (SELECT MAX(id) FROM "Project"));
+SELECT setval('"Knowledge_Category_id_seq"', (SELECT MAX(id) FROM "Knowledge_Category"));
 SELECT setval('"knowledge_id_seq"', (SELECT MAX(id) FROM "knowledge"));
-SELECT setval('"knowledge_level_id_seq"', (SELECT MAX(id) FROM "knowledge_level"));
-SELECT setval('"applied_knowledge_id_seq"', (SELECT MAX(id) FROM "applied_knowledge"));
+SELECT setval('"Knowledge_Level_id_seq"', (SELECT MAX(id) FROM "Knowledge_Level"));
+SELECT setval('"Applied_Knowledge_id_seq"', (SELECT MAX(id) FROM "Applied_Knowledge"));
 

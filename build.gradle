@@ -51,3 +51,158 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Docker image build tasks
+tasks.register('dockerBuild', Exec) {
+	group = 'docker'
+	description = 'Build Docker image for the application'
+
+	dependsOn 'bootJar'
+
+	def imageName = "pragma/knowledge-tracker"
+	def imageTag = project.version
+	def imageFullName = "${imageName}:${imageTag}"
+	def imageLatest = "${imageName}:latest"
+
+	commandLine 'docker', 'build',
+		'-t', imageFullName,
+		'-t', imageLatest,
+		'--build-arg', "JAR_FILE=build/libs/${project.name}-${project.version}.jar",
+		'.'
+
+	doLast {
+		println "Docker image built successfully:"
+		println "  - ${imageFullName}"
+		println "  - ${imageLatest}"
+	}
+}
+
+tasks.register('dockerBuildNoCache', Exec) {
+	group = 'docker'
+	description = 'Build Docker image without cache'
+
+	dependsOn 'bootJar'
+
+	def imageName = "pragma/knowledge-tracker"
+	def imageTag = project.version
+	def imageFullName = "${imageName}:${imageTag}"
+	def imageLatest = "${imageName}:latest"
+
+	commandLine 'docker', 'build',
+		'--no-cache',
+		'-t', imageFullName,
+		'-t', imageLatest,
+		'--build-arg', "JAR_FILE=build/libs/${project.name}-${project.version}.jar",
+		'.'
+
+	doLast {
+		println "Docker image built successfully (no cache):"
+		println "  - ${imageFullName}"
+		println "  - ${imageLatest}"
+	}
+}
+
+tasks.register('dockerPush', Exec) {
+	group = 'docker'
+	description = 'Push Docker image to registry'
+
+	dependsOn 'dockerBuild'
+
+	def imageName = "pragma/knowledge-tracker"
+	def imageTag = project.version
+
+	commandLine 'docker', 'push', "${imageName}:${imageTag}"
+
+	doFirst {
+		println "Pushing Docker image: ${imageName}:${imageTag}"
+	}
+
+	doLast {
+		println "Docker image pushed successfully: ${imageName}:${imageTag}"
+		println ""
+		println "To also push the 'latest' tag, run:"
+		println "  docker push ${imageName}:latest"
+	}
+}
+
+tasks.register('dockerRun', Exec) {
+	group = 'docker'
+	description = 'Run the Docker container locally'
+
+	dependsOn 'dockerBuild'
+
+	def imageName = "pragma/knowledge-tracker"
+	def containerName = "knowledge-tracker-app"
+	def port = "8080"
+
+	commandLine 'docker', 'run',
+		'--name', containerName,
+		'-p', "${port}:8080",
+		'-e', 'SPRING_PROFILES_ACTIVE=dev',
+		'--rm',
+		'-it',
+		"${imageName}:latest"
+
+	doFirst {
+		println "Starting container: ${containerName}"
+		println "Application will be available at: http://localhost:${port}"
+	}
+}
+
+tasks.register('dockerStop', Exec) {
+	group = 'docker'
+	description = 'Stop and remove the Docker container'
+
+	def containerName = "knowledge-tracker-app"
+
+	commandLine 'docker', 'stop', containerName
+
+	doFirst {
+		println "Stopping container: ${containerName}"
+	}
+
+	ignoreExitValue = true
+}
+
+tasks.register('dockerClean', Exec) {
+	group = 'docker'
+	description = 'Remove Docker image'
+
+	def imageName = "pragma/knowledge-tracker"
+
+	commandLine 'docker', 'rmi', "${imageName}:${project.version}", "${imageName}:latest"
+
+	doFirst {
+		println "Removing Docker images for: ${imageName}"
+	}
+
+	ignoreExitValue = true
+}
+
+tasks.register('dockerInfo') {
+	group = 'docker'
+	description = 'Display Docker image information'
+
+	doLast {
+		def imageName = "pragma/knowledge-tracker"
+		def imageTag = project.version
+
+		println ""
+		println "Docker Image Information:"
+		println "========================="
+		println "Image Name: ${imageName}"
+		println "Version: ${imageTag}"
+		println "Full Name: ${imageName}:${imageTag}"
+		println "Latest Tag: ${imageName}:latest"
+		println ""
+		println "Available Docker Tasks:"
+		println "  ./gradlew dockerBuild       - Build Docker image"
+		println "  ./gradlew dockerBuildNoCache - Build without cache"
+		println "  ./gradlew dockerRun         - Run container locally"
+		println "  ./gradlew dockerStop        - Stop running container"
+		println "  ./gradlew dockerPush        - Push to registry"
+		println "  ./gradlew dockerClean       - Remove Docker image"
+		println "  ./gradlew dockerInfo        - Show this information"
+		println ""
+	}
+}

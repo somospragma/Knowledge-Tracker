@@ -38,6 +38,13 @@
   - [Run Commands](#run-commands)
   - [Testing Commands](#testing-commands)
 - [Project Structure](#project-structure)
+- [Docker Deployment](#docker-deployment)
+  - [Building the Docker Image](#building-the-docker-image)
+  - [Running the Docker Container](#running-the-docker-container)
+  - [Docker Compose Deployment](#docker-compose-deployment)
+  - [Environment Variables for Docker](#environment-variables-for-docker)
+  - [Pushing to Container Registry](#pushing-to-container-registry)
+  - [Docker Image Management](#docker-image-management)
 - [Development Guidelines](#development-guidelines)
 - [Documentation](#documentation)
   - [API Documentation](#api-documentation)
@@ -45,6 +52,7 @@
   - [Database](#database)
   - [ELK Stack](#elk-stack)
   - [Development](#development)
+  - [Deployment](#deployment)
   - [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
@@ -568,6 +576,202 @@ Knowledge-Tracker/
 
 ---
 
+## Docker Deployment
+
+The application can be containerized using Docker for easy deployment to any environment.
+
+### Docker Image
+
+The project includes a multi-stage Dockerfile that:
+- Uses Gradle to build the application in an isolated build environment
+- Creates a minimal runtime image with only the JRE (based on Alpine Linux)
+- Runs as a non-root user for security
+- Includes health checks for container orchestration
+- Optimizes for production with proper JVM settings
+
+### Building the Docker Image
+
+#### Using Gradle Tasks (Recommended)
+
+The project includes convenient Gradle tasks for Docker operations:
+
+```bash
+# View all available Docker tasks and information
+./gradlew dockerInfo
+
+# Build the Docker image
+./gradlew dockerBuild
+
+# Build without cache (clean build)
+./gradlew dockerBuildNoCache
+```
+
+The build will create two tags:
+- `pragma/knowledge-tracker:0.0.1-SNAPSHOT` (version-specific)
+- `pragma/knowledge-tracker:latest`
+
+#### Using Docker CLI Directly
+
+```bash
+# Build the image manually
+docker build -t pragma/knowledge-tracker:latest .
+
+# Build with specific version
+docker build -t pragma/knowledge-tracker:0.0.1-SNAPSHOT .
+```
+
+### Running the Docker Container
+
+#### Using Gradle Task
+
+```bash
+# Run the container (builds image if needed)
+./gradlew dockerRun
+
+# Stop the container
+./gradlew dockerStop
+```
+
+#### Using Docker CLI
+
+```bash
+# Run with environment variables
+docker run -d \
+  --name knowledge-tracker-app \
+  -p 8080:8080 \
+  -e SPRING_PROFILES_ACTIVE=prod \
+  -e DB_HOST=your-db-host \
+  -e DB_PORT=5432 \
+  -e DB_NAME=knowledge_tracker \
+  -e DB_USERNAME=your-db-user \
+  -e DB_PASSWORD=your-db-password \
+  -e ES_HOST=your-es-host \
+  -e ES_PORT_APP=9200 \
+  pragma/knowledge-tracker:latest
+
+# View logs
+docker logs -f knowledge-tracker-app
+
+# Stop the container
+docker stop knowledge-tracker-app
+
+# Remove the container
+docker rm knowledge-tracker-app
+```
+
+### Docker Compose Deployment
+
+For a complete deployment with PostgreSQL and Elasticsearch, you can extend the existing `docker-compose.yml`:
+
+```yaml
+# Add to docker-compose.yml
+  app:
+    image: pragma/knowledge-tracker:latest
+    container_name: knowledge-tracker-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-knowledge_tracker_dev}
+      DB_USERNAME: ${DB_USERNAME:-pragma_dev}
+      DB_PASSWORD: ${DB_PASSWORD:-pragma_dev_password}
+      ES_HOST: elasticsearch
+      ES_PORT_APP: 9200
+      JAVA_OPTS: "-Xms512m -Xmx1024m"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 60s
+    networks:
+      - pragma-network
+```
+
+Then run:
+
+```bash
+# Start all services including the application
+docker-compose up -d
+
+# View application logs
+docker-compose logs -f app
+```
+
+### Environment Variables for Docker
+
+When running in Docker, configure these environment variables:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `SPRING_PROFILES_ACTIVE` | Yes | Spring profile (dev, test, prod) |
+| `DB_HOST` | Yes | PostgreSQL host |
+| `DB_PORT` | No | PostgreSQL port (default: 5432) |
+| `DB_NAME` | Yes | PostgreSQL database name |
+| `DB_USERNAME` | Yes | PostgreSQL username |
+| `DB_PASSWORD` | Yes | PostgreSQL password |
+| `ES_HOST` | Yes | Elasticsearch host |
+| `ES_PORT_APP` | No | Elasticsearch port (default: 9200) |
+| `JAVA_OPTS` | No | JVM options (default: "-Xms256m -Xmx512m -XX:+UseG1GC") |
+
+### Pushing to Container Registry
+
+```bash
+# Tag the image for your registry
+docker tag pragma/knowledge-tracker:latest your-registry.com/pragma/knowledge-tracker:latest
+
+# Push to registry using Gradle
+./gradlew dockerPush
+
+# Or push manually
+docker push your-registry.com/pragma/knowledge-tracker:latest
+```
+
+### Docker Image Management
+
+```bash
+# View Docker tasks information
+./gradlew dockerInfo
+
+# Remove the Docker image
+./gradlew dockerClean
+
+# Or manually
+docker rmi pragma/knowledge-tracker:latest
+docker rmi pragma/knowledge-tracker:0.0.1-SNAPSHOT
+```
+
+### Docker Image Details
+
+**Base Images:**
+- Build Stage: `gradle:8.11.1-jdk21-alpine` (includes Gradle and JDK 21)
+- Runtime Stage: `eclipse-temurin:21-jre-alpine` (minimal JRE 21 on Alpine Linux)
+
+**Image Size:**
+- Approximately 250-300 MB (runtime image only, build stage is discarded)
+
+**Security Features:**
+- Non-root user execution
+- Minimal Alpine Linux base
+- No unnecessary packages
+- Security-hardened JRE
+
+**Health Check:**
+- Endpoint: `/actuator/health`
+- Interval: 30 seconds
+- Timeout: 3 seconds
+- Start Period: 60 seconds (allows app startup time)
+- Retries: 3
+
+---
+
 ## Development Guidelines
 
 ### Adding New Features
@@ -627,6 +831,10 @@ Comprehensive documentation is available in the `docs/` folder:
 
 - [Claude Code Guide](docs/development/claude-code.md) - Using Claude Code with this project
 - [Docker Setup](docs/development/docker-setup.md) - Docker configuration and usage
+
+### Deployment
+
+- [Docker Deployment Guide](docs/application-docker/docker-deployment-guide.md) - Complete guide for building and running the application Docker image
 
 ### Testing
 
