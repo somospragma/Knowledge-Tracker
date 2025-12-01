@@ -491,6 +491,124 @@ PROD_SERVER_PORT=8080 \
 ./gradlew check
 ```
 
+### Important: Database Setup for Testing
+
+⚠️ **CRITICAL**: Before running tests, ensure the PostgreSQL database is populated with test data.
+
+#### Why is this needed?
+
+The application uses **two configuration profiles**:
+
+1. **`dev` profile** (application-dev.yml):
+   - Used by the main application when running with Docker
+   - SQL initialization mode: `never` (data loaded by Docker Compose)
+   - Hibernate DDL mode: `update` (doesn't drop tables)
+   - Database: `knowledge_tracker_dev`
+
+2. **Default profile** (application.yml):
+   - Used by unit/integration tests
+   - Uses the same `knowledge_tracker_dev` database
+   - Expects data to already exist in the database
+
+#### Test Data Setup Workflow
+
+**Option 1: Using Docker Compose (Recommended)**
+
+```bash
+# Step 1: Clean existing database (removes all data)
+docker-compose down -v
+
+# Step 2: Start Docker Compose (automatically loads data-dev.sql)
+docker-compose up -d
+
+# Step 3: Wait for database to be ready (about 10-15 seconds)
+sleep 15
+
+# Step 4: Run tests
+./gradlew test
+```
+
+**Option 2: Manual Database Reset**
+
+If you need to reset the database without restarting Docker:
+
+```bash
+# Connect to PostgreSQL and drop/recreate database
+docker exec -it knowledge-tracker-postgres psql -U pragma_dev -d postgres -c "DROP DATABASE IF EXISTS knowledge_tracker_dev;"
+docker exec -it knowledge-tracker-postgres psql -U pragma_dev -d postgres -c "CREATE DATABASE knowledge_tracker_dev;"
+
+# Restart the application to trigger schema creation and data loading
+# (if you have data loading enabled in docker-compose.yml)
+```
+
+**Option 3: Quick Docker Reset (No rebuild)**
+
+```bash
+# Stop services, remove volumes, and restart
+docker-compose down -v && docker-compose up -d
+
+# Wait for services to be ready
+sleep 15
+
+# Run tests
+./gradlew test
+```
+
+#### Test Configuration Summary
+
+| Aspect | Configuration |
+|--------|--------------|
+| **Test Profile** | Default (no profile specified) |
+| **Database** | `knowledge_tracker_dev` (shared with dev) |
+| **SQL Init Mode** | `never` (data must exist) |
+| **DDL Auto** | `none` (schema managed by Docker) |
+| **Data Source** | `src/main/resources/sql/data-dev.sql` |
+| **Loading Method** | Docker Compose initialization |
+| **Physical Naming** | `PhysicalNamingStrategyStandardImpl` (preserves table names as-is) |
+
+#### Troubleshooting Test Failures
+
+**Problem 1: Empty result sets**
+```
+Error: "Test requires at least one existing applied knowledge"
+Error: "Expecting actual not to be empty"
+```
+**Solution**: The database is empty. Follow the "Test Data Setup Workflow" above to populate it.
+
+**Problem 2: Table name case mismatch**
+```
+Error: relation "pragmatic" does not exist
+```
+**Root Cause**: Hibernate created lowercase tables (`pragmatic`, `project`) but data exists in capitalized tables (`Pragmatic`, `Project`)
+
+**Solution**: Clean restart Docker to remove duplicate tables:
+```bash
+docker-compose down -v && docker-compose up -d && sleep 15
+```
+
+**Problem 3: Schema validation errors**
+```
+Error: Schema-validation: wrong column type encountered
+```
+**Root Cause**: `ddl-auto` is set to `validate` or `update`, causing Hibernate to interfere with schema
+
+**Solution**: Ensure `application-dev.yml` has:
+```yaml
+hibernate:
+  ddl-auto: none  # Let Docker manage schema
+properties:
+  hibernate:
+    physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+```
+
+#### Continuous Integration Notes
+
+For CI/CD pipelines, ensure:
+1. PostgreSQL container is started before tests
+2. Database is initialized with test data (via SQL script or Docker volume mount)
+3. Wait for database readiness before running tests
+4. Use `docker-compose down -v` between pipeline runs for clean state
+
 ### Environment Variables
 
 The application uses environment variables for configuration across different profiles.

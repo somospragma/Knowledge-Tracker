@@ -16,7 +16,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update  # Use schema.sql.bak for tests
+      ddl-auto: none  # Don't modify schema - tables are created by Docker
     show-sql: true
     defer-datasource-initialization: true
     properties:
@@ -26,10 +26,11 @@ spring:
           batch_size: 20
         order_inserts: true
         order_updates: true
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
   sql:
     init:
-      mode: never #The Sample Data is Uploaded by Docker Compose Script.
+      mode: never #Changed to 'always' to support integration tests
       data-locations: classpath:sql/data-dev.sql
       continue-on-error: false
 

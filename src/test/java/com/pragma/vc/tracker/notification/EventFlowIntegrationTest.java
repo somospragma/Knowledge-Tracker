@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * the Knowledge Application context to the Notification context.
  */
 @SpringBootTest
-@ActiveProfiles("dev")
 class EventFlowIntegrationTest {
 
     @Autowired

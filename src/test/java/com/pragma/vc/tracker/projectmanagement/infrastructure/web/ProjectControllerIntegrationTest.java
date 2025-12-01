@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests the REST API endpoints with real Spring context and database
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("dev")
 class ProjectControllerIntegrationTest {
 
     @Autowired
