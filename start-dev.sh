@@ -35,7 +35,9 @@ fi
 
 # Load environment variables
 if [ -f .env ]; then
-    export $(cat .env | grep -v '^#' | xargs)
+    set -a  # automatically export all variables
+    source <(cat .env | grep -v '^#' | grep -v '^$' | sed 's/\r$//')
+    set +a  # stop automatically exporting
 fi
 
 # Parse command line arguments
